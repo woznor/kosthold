@@ -10,7 +10,6 @@
         "meal_type": [
             ""
         ],
-        "meal_category": "",
         "meal_category_icon": "",
         "name": "",
         "procedure": "",
@@ -635,5 +634,237 @@
             "fat": 16,
             "fibre": 0
         }
+    },
+    {
+        "id": 9,
+        "portions": 1,
+        "rating": 3,
+        "protein_powder": false,
+        "heatable": true,
+        "must_be_heated": false,
+        "icon": "",
+        "meal_type": [
+            0,
+            1,
+            3
+        ],
+        "meal_category": "",
+        "meal_category_icon": "",
+        "name": "Lomper med skinke og ost + skyr",
+        "procedure": "Kan om ønskelig varmes i ovn, mikro eller toasthjern",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJDjTLrIlZR1MHXF6rduq4l1T4x7774kR6MA&s",
+        "date_time": "",
+        "ingredients": [
+            {
+                "text": "lomper",
+                "type": "stk",
+                "grams": 120,
+                "number": 4
+            },
+            {
+                "text": "hvitost, lett",
+                "type": "skiver",
+                "grams": 52,
+                "number": 4
+            },
+            {
+                "text": "Skyr",
+                "type": "boks",
+                "grams": 160,
+                "number": 1
+            },
+            {
+                "text": "magert kjøttpålegg",
+                "type": "skiver",
+                "grams": 44,
+                "number": 4
+            }
+        ],
+        "protein_addons": [],
+        "nutrients": {
+            "calories": 450,
+            "protein": 47,
+            "carbs": 45,
+            "fat": 10,
+            "fibre": 0
+        }
+    },
+    {
+        "id": 10,
+        "portions": 1,
+        "rating": 3,
+        "protein_powder": false,
+        "heatable": true,
+        "must_be_heated": false,
+        "icon": "",
+        "meal_type": [
+            0,
+            1,
+            3
+        ],
+        "meal_category": "",
+        "meal_category_icon": "mdi-bread-slice-outline",
+        "name": "Brød med hvitost og kjøttpålegg",
+        "procedure": "Kan om ønskelig varmes i ovn, mikro eller toasthjern. Ta gjerne på ketchup og/eller sennep hvis du vil. Pynt gjerne med grønt hvis du vil",
+        "image": "https://res.cloudinary.com/norgesgruppen/image/upload/f_auto,q_75/cepwscxjqkamqlnretef",
+        "date_time": "",
+        "ingredients": [
+            {
+                "text": "hvitost, lett",
+                "type": "skiver",
+                "grams": 65,
+                "number": 5
+            },
+            {
+                "text": "magert kjøttpålegg",
+                "type": "skiver",
+                "grams": 88,
+                "number": 8
+            },
+            {
+                "text": "grovt brød",
+                "type": "skiver",
+                "grams": 80,
+                "number": 2
+            }
+        ],
+        "protein_addons": [],
+        "nutrients": {
+            "calories": 450,
+            "protein": 35,
+            "carbs": 45,
+            "fat": 15,
+            "fibre": 0
+        }
+    },
+    {
+        "id": 11,
+        "portions": 1,
+        "rating": 3,
+        "protein_powder": false,
+        "heatable": true,
+        "must_be_heated": true,
+        "icon": "",
+        "meal_type": [
+            1
+        ],
+        "meal_category_icon": "mdi-pasta",
+        "name": "Pasta Bolognese",
+        "procedure": "1. Stek karbonadedeig i en panne og sett til side  når ferdig. <br/><br/> 2. Stek løk og gulrøtter sammen og tilsett hakkede tomater, tomatpurre, fersk basilikum og cottage cheese. Mikse dette sammen i en stavmikser for en mykere konsistens. <br/><br/> 3. Hell så sausen over kjøttdeigen og stek sammen. Tilsett krydder og ketchup hvis du vil",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqrZVPayvcgld16Cr-EzdWnsnFbnZOfSa1hw&s",
+        "date_time": "",
+        "ingredients": [
+            {
+                "text": "Karbonadedeig",
+                "type": "g",
+                "grams": 130,
+                "number": 130
+            },
+            {
+                "text": "løk",
+                "type": "stk",
+                "grams": 80,
+                "number": 0.5
+            },
+            {
+                "text": "gulrot",
+                "type": "stk",
+                "grams": 80,
+                "number": 1
+            },
+            {
+                "text": "hakket tomat, hermetisk",
+                "type": "dl",
+                "grams": 100,
+                "number": 1
+            },
+            {
+                "text": "tomatpuré",
+                "type": "ss",
+                "grams": 18,
+                "number": 1
+            },
+            {
+                "text": "mager cottage cheese",
+                "type": "ss",
+                "grams": 80,
+                "number": 5
+            },
+            {
+                "text": "basilikum",
+                "type": "neve",
+                "grams": 10,
+                "number": 1
+            },
+            {
+                "text": "pasta, fullkorn",
+                "type": "dl",
+                "grams": 60,
+                "number": 2
+            }
+        ],
+        "protein_addons": [],
+        "nutrients": {
+            "calories": 530,
+            "protein": 55,
+            "carbs": 48,
+            "fat": 10,
+            "fibre": 0
+        }
+    },
+    {
+        "id": 0,
+        "portions": 1,
+        "rating": 3,
+        "protein_powder": false,
+        "heatable": false,
+        "must_be_heated": true,
+        "icon": "",
+        "meal_type": [
+            0,
+            1,
+            3
+        ],
+        "meal_category_icon": "",
+        "name": "Havregrøt med kanel, gulrot og vaniljekesam",
+        "procedure": "1. kok opp havregryn eller havremel på vann og tilsett gjerne litt kardemomme. <br/><br/> 2. Rør inn proteinpulver og raspet gulrot. Topp med mager vaniljekesam, kanel og sukrin gold.",
+        "image": "https://cdn-yams.godt.no/api/v1/godt-recipe/images/36/3667a47d-a02d-4e64-a54b-7106e61da915?rule=w4000_auto",
+        "date_time": "",
+        "ingredients": [
+            {
+                "text": "havregryn",
+                "type": "dl",
+                "grams": 60,
+                "number": 1.5
+            },
+            {
+                "text": "proteinpulver",
+                "type": "måleskje",
+                "grams": 30,
+                "number": 1
+            },
+            {
+                "text": "gulrot",
+                "type": "stk",
+                "grams": 80,
+                "number": 1
+            },
+            {
+                "text": "vaniljekesam",
+                "type": "ss",
+                "grams": 126,
+                "number": 7
+            }
+
+        ],
+        "protein_addons": [],
+        "nutrients": {
+            "calories": 450,
+            "protein": 53,
+            "carbs": 45,
+            "fat": 6,
+            "fibre": 0
+        }
     }
+
 ]

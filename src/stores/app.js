@@ -4,11 +4,18 @@ import axios from 'axios'
 
 export const useAppStore = defineStore('app', {
   state: () => ({
+    //Arrays:
     meals: null,
-    loadng: false,
-    selection: 1,
+    exercises: null,
+
+    //Booleans:
+    loading: false,
+
+    //Filters: 
     searchTerm: null,
     selectedMealType: null,
+
+    //Select values:
     mealTypeMap:  ['Frokost', 'Lunsj', 'Middag', 'Kveldsmat']
 
     //
@@ -59,12 +66,14 @@ export const useAppStore = defineStore('app', {
         console.error('Error fetching meals:', error)
       }
     },
-
-    reserve() {
-      this.loading = true
-
-      setTimeout(() => (this.loading = false), 2000)
+    async fetchExcerises() {
+      try {
+        const response = await axios.get('/excercise.json')
+        this.exercises = response.data
+        console.log(this.meals)
+      } catch (error) {
+        console.error('Error fetching meals:', error)
+      }
     },
-
   }
 })
