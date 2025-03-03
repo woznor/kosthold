@@ -14,7 +14,7 @@ import { onMounted } from "vue";
 
 import { useAppStore } from "../stores/app";
 const store = useAppStore();
-const tab = ref(1);
+const tab = ref(0);
 
 onMounted(() => {
   store.fetchMeals();

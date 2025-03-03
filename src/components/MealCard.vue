@@ -1,12 +1,14 @@
 <template>
     <Search />
+    <v-btn @click="store.addMealDialog = true" color="success">Legg til måltid</v-btn>
+    <div class="d-flex flex-wrap">
   <v-card
     v-for="(item, i) in store.filteredMeals"
     :key="i"
     :disabled="store.loading"
     :loading="store.loading"
     class="mx-auto my-12"
-    max-width="600"
+    width="600"
   >
     <template v-slot:loader="{ isActive }">
       <v-progress-linear
@@ -49,6 +51,8 @@
       ></v-btn>
     </v-card-actions>
   </v-card>
+  <AddMeal/>
+</div>
 </template>
 
 

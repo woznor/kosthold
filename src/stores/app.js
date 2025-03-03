@@ -16,7 +16,14 @@ export const useAppStore = defineStore('app', {
     selectedMealType: null,
 
     //Select values:
-    mealTypeMap:  ['Frokost', 'Lunsj', 'Middag', 'Kveldsmat']
+    mealTypeMap:  ['Frokost', 'Lunsj', 'Middag', 'Kveldsmat'],
+
+    //Dialogs:
+    addMealDialog: false,
+
+    //Login
+    username: "",
+    password: ""
 
     //
   }),
