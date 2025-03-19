@@ -30,7 +30,7 @@ class Meal(BaseModel):
     heatable: bool
     must_be_heated: bool
     meal_type: List[int]
-    meal_category: str
+    meal_category: List[str]
     meal_category_icon: str
     procedure: str
     image: str

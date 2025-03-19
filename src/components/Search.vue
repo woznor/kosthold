@@ -11,6 +11,17 @@
     label="Måltidstype"
     clearable
     ></v-select>
+    <div>
+        
+    <v-text-field
+    width="80"
+    v-model="store.portions"
+    label="Porsjoner"
+    @change="store.fetchMeals()"
+    >
+    </v-text-field>
+    </div>
+
 </div>
 
 </template>

@@ -46,9 +46,17 @@
       <v-btn
         color="deep-purple-lighten-2"
         text="Legg i dagens måltid"
-        block
         border
       ></v-btn>
+      <v-spacer/>
+      <v-btn
+        color="red-lighten-2"
+        text="Slett"
+        @click="store.deleteMeal(item.id)"
+        
+  
+      ></v-btn>
+      
     </v-card-actions>
   </v-card>
   <AddMeal/>

@@ -19,5 +19,7 @@ const tab = ref(0);
 onMounted(() => {
   store.fetchMeals();
   store.fetchExcerises();
+  store.fetchIngredients();
+  store.fetchIngredientUnits();
 });
 </script>
