@@ -1,6 +1,6 @@
 <template>
 <div v-if="item.protein_addons.length">
-      <h3 class="mt-2">Ekstra proteinkilde</h3>
+      <div class="mt-2" style="font-size: 20px;">Ekstra proteinkilde</div>
       <v-divider class="ma-1"></v-divider>
       <div>
         <div v-for="(obj, i) in item.protein_addons" :key="i">

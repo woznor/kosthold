@@ -5,7 +5,7 @@
     transition="dialog-transition"
   >
     <v-card>
-      <v-card-title class="text-h6"> Nytt måltid </v-card-title>
+      <v-card-title class="text-h6">  </v-card-title>
 
       <v-card-text>
         <v-form>
@@ -56,23 +56,24 @@
               dense
             /> -->
 
-          <v-textarea
-            v-model="meal.procedure"
-            label="Veiledning"
-            rows="3"
-            outlined
-            dense
-          />
+          <div class="">
+            <q-editor 
+              v-model="meal.procedure" 
+              dark 
+              label="Veiledning"
+              />
+          </div>
 
-          <!-- <v-text-field
+          <v-text-field
+              class="ma-2"
               v-model="meal.image"
-              label="Bilde"
+              label="Bilde URL"
               outlined
               dense
-            /> -->
+            />
 
           <!-- Ingredients -->
-          <h3 class="mt-4">Ingredienser</h3>
+          <div class="mt-4" style="font-size: 20px;">Ingredienser</div>
           <div
             v-for="(ingredient, i) in meal.ingredients"
             :key="i"
@@ -122,7 +123,7 @@
           </v-btn>
 
           <!-- Protein Addons -->
-          <h3 class="mt-4">Tillegsprotein</h3>
+          <div class="mt-4" style="font-size: 20px;">Tillegsprotein</div>
           <div
             v-for="(addon, i) in meal.protein_addons"
             :key="i"
@@ -163,7 +164,7 @@
           </v-btn>
 
           <!-- Nutrients -->
-          <h3 class="mt-4">Næringsstoffer</h3>
+          <div class="mt-4" style="font-size: 20px;">Næringsstoffer</div>
           <v-text-field
             v-model.number="meal.nutrients.calories"
             label="Kalorier"
@@ -213,6 +214,14 @@
 <script setup>
 import { ref } from "vue";
 import { useAppStore } from "../stores/app";
+
+import { QEditor } from "quasar";
+
+import '@quasar/extras/material-icons/material-icons.css';
+import 'quasar/dist/quasar.css'; // Ensure this line is included
+import '@quasar/extras/material-icons/material-icons.css'; // Import material icons for the toolbar
+
+
 
 // Pinia store
 const store = useAppStore();
