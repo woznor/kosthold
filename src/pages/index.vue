@@ -3,7 +3,6 @@
     <header class="hero">
       <div>
         <p class="hero-kicker">Kostholdsplan</p>
-        <h1>Velg et måltid som faktisk frister</h1>
       </div>
 
       <div class="hero-controls">
