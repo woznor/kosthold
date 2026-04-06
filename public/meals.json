@@ -855,7 +855,6 @@
                 "grams": 126,
                 "number": 7
             }
-
         ],
         "protein_addons": [],
         "nutrients": {
@@ -865,6 +864,555 @@
             "fat": 6,
             "fibre": 0
         }
+    },
+    {
+        "id": 12,
+        "portions": 1,
+        "rating": 3,
+        "protein_powder": false,
+        "heatable": true,
+        "must_be_heated": true,
+        "icon": "",
+        "meal_type": [
+            2
+        ],
+        "meal_category": "",
+        "meal_category_icon": "mdi-food-drumstick-outline",
+        "name": "Hvit kyllingcurry med nudler",
+        "procedure": "Stek kyllingfilet med salt, pepper og litt soyasaus. Tilsett 1 ts red curry paste eller krydder, 1 ts revet ingefær (gjerne med skall), 1 ts limesaft, 1 ts stivelse (fersk eller paste), 1 ts finhakket hvitløk, tørket eller fersk sopp (kan sløyfes). Når dette er stekt inn i kyllingen, tilsett kokosmelk og vann til passe konsistens. Ha deretter i nudler og la småkoke til nudlene er bløte. Topp med revet gulrot og koriander.",
+        "image": "/meal-images/1f435aac-cd96-452e-a988-9a035fca0964.jpg",
+        "date_time": "",
+        "ingredients": [
+            {
+                "text": "Kyllingfilet",
+                "type": "g",
+                "grams": 180,
+                "number": 180
+            },
+            {
+                "text": "Kokosmelk",
+                "type": "dl",
+                "grams": 110,
+                "number": 1
+            },
+            {
+                "text": "Hvitløk, finhakket",
+                "type": "ts",
+                "grams": 5,
+                "number": 1
+            },
+            {
+                "text": "Karripasta, curry paste",
+                "type": "ts",
+                "grams": 5,
+                "number": 1
+            },
+            {
+                "text": "Nudler, med egg",
+                "type": "g",
+                "grams": 20,
+                "number": 20
+            },
+            {
+                "text": "Ingefærrot",
+                "type": "ts",
+                "grams": 5,
+                "number": 1
+            },
+            {
+                "text": "Gulrot",
+                "type": "stk",
+                "grams": 40,
+                "number": 0.5
+            }
+        ],
+        "protein_addons": [],
+        "nutrients": {
+            "calories": 530,
+            "protein": 21,
+            "carbs": 48,
+            "fat": 29,
+            "fibre": 0
+        }
+    },
+    {
+        "id": 13,
+        "portions": 1,
+        "rating": 3,
+        "protein_powder": false,
+        "heatable": true,
+        "must_be_heated": true,
+        "icon": "",
+        "meal_type": [
+            2
+        ],
+        "meal_category": "",
+        "meal_category_icon": "mdi-food-steak",
+        "name": "Biff Bourguignon med rotgrønnsaker",
+        "procedure": "Kutt poteter, gulrøtter, sopp, kålrot og kjøtt i terninger. Finhakk løk og hvitløk. Ha litt olje i en jerngryte (om du har) og fres løk og hvitløk myk. Ha hvetemel over kjøttet, og ha kjøttet i gryta. Brun kjøttet og ha over tomatpurre. Hell over kraft og la det småkoke en times tid. Ha i grønnsakene og la gryta koke videre i ca. 20 min. Smak til med salt og pepper. Om ænskelig kan du bruke litt frikalorier på brød ved servering.",
+        "image": "/meal-images/35072011-5?c2f-4bd5-a1be-7dddf54004f0.jpg",
+        "date_time": "",
+        "ingredients": [
+            {
+                "text": "Storfe, høyrygg",
+                "type": "g",
+                "grams": 170,
+                "number": 170
+            },
+            {
+                "text": "Løk",
+                "type": "stk",
+                "grams": 40,
+                "number": 0.25
+            },
+            {
+                "text": "Gulrot",
+                "type": "stk",
+                "grams": 40,
+                "number": 0.5
+            },
+            {
+                "text": "Middels store poteter",
+                "type": "stk",
+                "grams": 130,
+                "number": 2
+            },
+            {
+                "text": "Hvitløk",
+                "type": "fedd",
+                "grams": 1,
+                "number": 0.5
+            },
+            {
+                "text": "Laurbærblad, tørket",
+                "type": "stk",
+                "grams": 5,
+                "number": 0.5
+            },
+            {
+                "text": "Sjampinjong, rå",
+                "type": "stk",
+                "grams": 36,
+                "number": 2
+            },
+            {
+                "text": "Kålrot, kålrabi",
+                "type": "stk",
+                "grams": 100,
+                "number": 0.24
+            },
+            {
+                "text": "Oksekraft, Jacobs",
+                "type": "dl",
+                "grams": 50,
+                "number": 0.5
+            },
+            {
+                "text": "Timian",
+                "type": "litt",
+                "grams": 10,
+                "number": 1
+            },
+            {
+                "text": "Hvetemel",
+                "type": "ss",
+                "grams": 3,
+                "number": 0.25
+            },
+            {
+                "text": "Tomatpuré",
+                "type": "ts",
+                "grams": 5,
+                "number": 0.5
+            },
+            {
+                "text": "Salt",
+                "type": "ønsket mengde",
+                "grams": 5,
+                "number": 1
+            },
+            {
+                "text": "Pepper, sort",
+                "type": "ønsket mengde",
+                "grams": 5,
+                "number": 1
+            },
+            {
+                "text": "Olivenolje",
+                "type": "ts",
+                "grams": 3,
+                "number": 1
+            }
+        ],
+        "protein_addons": [],
+        "nutrients": {
+            "calories": 530,
+            "protein": 34,
+            "carbs": 48,
+            "fat": 20,
+            "fibre": 0
+        }
+    },
+    {
+        "id": 14,
+        "portions": 1,
+        "rating": 3,
+        "protein_powder": false,
+        "heatable": true,
+        "must_be_heated": true,
+        "icon": "",
+        "meal_type": [
+            2
+        ],
+        "meal_category": "",
+        "meal_category_icon": "mdi-food-steak",
+        "name": "Biff stroganoff",
+        "procedure": "Sett risen på kok. Stek sopp og løk i en stekepanne og legg det til side. Skjær opp kjøttet i strimler og stek det. Når biffstrimlene har nådd ønsket stekegrad tilsetter du soppen og løken igjen, sammen med tomatpurre og creme fraiche. Smak til med salt og pepper. Server med ris og eventuelt en salat.",
+        "image": "/meal-images/20ab9138-767e-46f4-b693-2d16fab783aa.jpg",
+        "date_time": "",
+        "ingredients": [
+            {
+                "text": "Storfe, indrefilet",
+                "type": "g",
+                "grams": 150,
+                "number": 150
+            },
+            {
+                "text": "Ris",
+                "type": "dl",
+                "grams": 60,
+                "number": 0.75
+            },
+            {
+                "text": "Løk",
+                "type": "stk",
+                "grams": 40,
+                "number": 0.25
+            },
+            {
+                "text": "Sjampinjong, rå",
+                "type": "stk",
+                "grams": 40,
+                "number": 2
+            },
+            {
+                "text": "Tomatpuré",
+                "type": "ss",
+                "grams": 36,
+                "number": 2
+            },
+            {
+                "text": "Lett creme fraiche 10%",
+                "type": "ss",
+                "grams": 72,
+                "number": 4
+            }
+        ],
+        "protein_addons": [],
+        "nutrients": {
+            "calories": 530,
+            "protein": 55,
+            "carbs": 48,
+            "fat": 15,
+            "fibre": 0
+        }
+    },
+    {
+        "id": 15,
+        "portions": 1,
+        "rating": 3,
+        "protein_powder": false,
+        "heatable": true,
+        "must_be_heated": true,
+        "icon": "",
+        "meal_type": [
+            2
+        ],
+        "meal_category": "",
+        "meal_category_icon": "mdi-food-steak",
+        "name": "Biff på kinesisk vis",
+        "procedure": "Sett risen på kok og skjær opp storfekjøttet i strimler. Stek grønnsakene møre i en stekepanne og legg de til sides mens du steker biffstrimlene. Tilsett deretter grønnsakene igjen, sammen med kikkoman og oystersaus. Krydre med peppermix og server sammen med ris.",
+        "image": "/meal-images/92a4eb3f-168f-4057-ae6e-204315f262fa.jpg",
+        "date_time": "",
+        "ingredients": [
+            {
+                "text": "Storfe, indrefilet",
+                "type": "g",
+                "grams": 170,
+                "number": 170
+            },
+            {
+                "text": "Ris",
+                "type": "dl",
+                "grams": 64,
+                "number": 0.8
+            },
+            {
+                "text": "Wokblanding, klassisk",
+                "type": "pose",
+                "grams": 125,
+                "number": 0.25
+            },
+            {
+                "text": "Soyasaus",
+                "type": "ss",
+                "grams": 26,
+                "number": 2
+            },
+            {
+                "text": "Oyster sauce, Blue Dragon",
+                "type": "ss",
+                "grams": 26,
+                "number": 2
+            }
+        ],
+        "protein_addons": [],
+        "nutrients": {
+            "calories": 530,
+            "protein": 65,
+            "carbs": 48,
+            "fat": 9,
+            "fibre": 0
+        }
+    },
+    {
+        "id": 16,
+        "portions": 1,
+        "rating": 3,
+        "protein_powder": false,
+        "heatable": true,
+        "must_be_heated": true,
+        "icon": "",
+        "meal_type": [
+            2
+        ],
+        "meal_category": "",
+        "meal_category_icon": "mdi-pasta",
+        "name": "Grytelasagne",
+        "procedure": "Stek karbonadedeig, sjalottløk og hvitløk i en liten gryte. Krydre med grillkrydder, oregano og et lite dryss cayennepepper (kan sløyfes) og tilsett tomatpurre. La surre noen minutter før du tilsetter vann, suppebuljong, passata og cherrytomat. Fordel philadelphia i små klatter og brekk lasagneplater i 3 deler og fordel dem oppi gryten. La koke under lokk i ca. 15 min og strø over revet ost. La stå under lokk i 5 min og server sammen med salat.",
+        "image": "/meal-images/c137d711-2135-4d06-8a5c-f5623cd71640.jpg",
+        "date_time": "",
+        "ingredients": [
+            {
+                "text": "Karbonadedeig",
+                "type": "g",
+                "grams": 150,
+                "number": 150
+            },
+            {
+                "text": "Lasagneplater",
+                "type": "stk",
+                "grams": 45,
+                "number": 3
+            },
+            {
+                "text": "Tomatpuré",
+                "type": "ss",
+                "grams": 9,
+                "number": 0.5
+            },
+            {
+                "text": "Philadelphia light kremost",
+                "type": "ss",
+                "grams": 15,
+                "number": 1
+            },
+            {
+                "text": "Maggi kyllingbuljong",
+                "type": "terning",
+                "grams": 5,
+                "number": 0.5
+            },
+            {
+                "text": "Sjalottløk",
+                "type": "dl",
+                "grams": 30,
+                "number": 0.5
+            },
+            {
+                "text": "Hvitløk",
+                "type": "fedd",
+                "grams": 3,
+                "number": 1
+            },
+            {
+                "text": "Vann, drikkevann",
+                "type": "dl",
+                "grams": 0,
+                "number": 2
+            },
+            {
+                "text": "Tomat, hakket, tetrapak",
+                "type": "dl",
+                "grams": 100,
+                "number": 1
+            },
+            {
+                "text": "Cherrytomat",
+                "type": "neve",
+                "grams": 50,
+                "number": 1
+            },
+            {
+                "text": "Hvitost",
+                "type": "skiver",
+                "grams": 26,
+                "number": 2
+            }
+        ],
+        "protein_addons": [],
+        "nutrients": {
+            "calories": 530,
+            "protein": 41,
+            "carbs": 48,
+            "fat": 18,
+            "fibre": 0
+        }
+    },
+    {
+        "id": 17,
+        "portions": 1,
+        "rating": 3,
+        "protein_powder": false,
+        "heatable": true,
+        "must_be_heated": true,
+        "icon": "",
+        "meal_type": [
+            2
+        ],
+        "meal_category": "",
+        "meal_category_icon": "mdi-pasta",
+        "name": "Pasta med kremet paprikasaus og biff",
+        "procedure": "Start med å koke pasta. Deretter kutter du opp paprika og har i en gryte sammen med smør og vann og koker til den er mør. Ha paprika, philadelphia light og melk i en blender og kjør til du før en jevn saus. Stek biff og legg til sides mens du steker sjampinjong i biter i samme panne. Hell over paprikasausen og tilsett creme fraiche før du lar blandingen trekke noen minutter. Smak til med salt og pepper og server sammen med pasta.",
+        "image": "/meal-images/e9e23b07-615d-4cb6-a8f8-78e82483d69b.jpg",
+        "date_time": "",
+        "ingredients": [
+            {
+                "text": "Storfe, ytrefilet",
+                "type": "g",
+                "grams": 170,
+                "number": 170
+            },
+            {
+                "text": "Pasta",
+                "type": "dl",
+                "grams": 42,
+                "number": 1.4
+            },
+            {
+                "text": "Paprika",
+                "type": "stk",
+                "grams": 145,
+                "number": 1
+            },
+            {
+                "text": "Sjampinjong, rå",
+                "type": "stk",
+                "grams": 36,
+                "number": 2
+            },
+            {
+                "text": "Smør",
+                "type": "ts",
+                "grams": 11,
+                "number": 1.5
+            },
+            {
+                "text": "Philadelphia light kremost",
+                "type": "ss",
+                "grams": 15,
+                "number": 1
+            },
+            {
+                "text": "Lettmelk",
+                "type": "ss",
+                "grams": 15,
+                "number": 1.5
+            },
+            {
+                "text": "Lett creme fraiche 10%",
+                "type": "ss",
+                "grams": 27,
+                "number": 1.5
+            }
+        ],
+        "protein_addons": [],
+        "nutrients": {
+            "calories": 530,
+            "protein": 38,
+            "carbs": 48,
+            "fat": 19,
+            "fibre": 0
+        }
+    },
+    {
+        "id": 18,
+        "portions": 1,
+        "rating": 3,
+        "protein_powder": false,
+        "heatable": true,
+        "must_be_heated": true,
+        "icon": "",
+        "meal_type": [
+            2
+        ],
+        "meal_category": "",
+        "meal_category_icon": "mdi-pot-steam",
+        "name": "Onepot tacogryte",
+        "procedure": "Kutt opp løken og fres den i kjelen før du så tilsetter karbonadedeigen. Stek den til den er gjennomstekt og tilsett så tacokrydder, tacosaus, mais og 2 dl vann med 1/2 kjøttbuljong terning i. Bland godt sammen før du tilsetter ris. Rør godt og la det putre til risen er ferdig og vannet er trukket inn og du har en gryte. Følg litt med og tilsett mer vann ved behov. Server så med en stor salat til og gjerne litt rømme/kesam om ønskelig om du har frikalorier.",
+        "image": "/meal-images/fbf4ad82-f250-4207-a53d-5d88aec31eac.jpg",
+        "date_time": "",
+        "ingredients": [
+            {
+                "text": "Karbonadedeig",
+                "type": "g",
+                "grams": 180,
+                "number": 180
+            },
+            {
+                "text": "løk",
+                "type": "stk",
+                "grams": 40,
+                "number": 0.25
+            },
+            {
+                "text": "Taco kryddermix, Old El Paso",
+                "type": "ts",
+                "grams": 11,
+                "number": 3
+            },
+            {
+                "text": "Tacosaus, medium, Old El Paso",
+                "type": "ss",
+                "grams": 51,
+                "number": 3
+            },
+            {
+                "text": "Ris",
+                "type": "dl",
+                "grams": 60,
+                "number": 0.75
+            },
+            {
+                "text": "Mais",
+                "type": "dl",
+                "grams": 35,
+                "number": 0.5
+            },
+            {
+                "text": "Kjøttbuljong, Maggi",
+                "type": "terning",
+                "grams": 5,
+                "number": 0.5
+            }
+        ],
+        "protein_addons": [],
+        "nutrients": {
+            "calories": 530,
+            "protein": 56,
+            "carbs": 48,
+            "fat": 12,
+            "fibre": 0
+        }
     }
-
 ]

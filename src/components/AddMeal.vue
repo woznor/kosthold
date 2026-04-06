@@ -1,245 +1,165 @@
 <template>
-  <v-dialog
-    v-model="store.addMealDialog"
-    width="50vw"
-    transition="dialog-transition"
-  >
-    <v-card>
-      <v-card-title class="text-h6">  </v-card-title>
+  <v-dialog v-model="store.addMealDialog" max-width="980" transition="dialog-transition">
+    <v-card class="add-meal-card">
+      <v-card-title class="dialog-title">
+        <div>
+          <p class="kicker">Nytt måltid</p>
+          <h2>Legg til måltid</h2>
+        </div>
+      </v-card-title>
 
-      <v-card-text>
-        <v-form>
-          <!-- Basic Fields -->
-          <v-text-field v-model="meal.name" label="Name" outlined dense />
-
-          <v-rating
-            v-model.number="meal.rating"
-            hover
-            :length="5"
-            :size="32"
-            active-color="primary"
+      <v-card-text class="dialog-body">
+        <div class="grid two-col">
+          <v-text-field
+            v-model="meal.name"
+            label="Navn"
+            variant="outlined"
+            density="comfortable"
           />
+
+          <v-text-field
+            v-model="meal.image"
+            label="Bilde-URL eller /meal-images/..."
+            variant="outlined"
+            density="comfortable"
+          />
+
+          <div class="rating-wrap">
+            <span>Vurdering</span>
+            <v-rating v-model.number="meal.rating" hover :length="5" :size="28" active-color="var(--app-accent)" />
+          </div>
+
           <v-text-field
             v-model.number="meal.portions"
-            label="Posjoner"
+            label="Porsjoner"
             type="number"
-            outlined
-            dense
+            min="1"
+            variant="outlined"
+            density="comfortable"
           />
-          <v-checkbox
-            v-model="meal.protein_powder"
-            label="Inneholder retten proteinpulver som tilleg?"
-          />
-          <v-checkbox v-model="meal.heatable" label="Kan retten varmes?" />
-          <v-checkbox v-model="meal.must_be_heated" label="Må retten varmes?" />
 
           <v-combobox
             v-model="meal.meal_category"
             :items="store.mealTypeMap"
             label="Måltidstype"
-            outlined
-            dense
+            variant="outlined"
+            density="comfortable"
             multiple
+            chips
+            clearable
           />
 
-          <!-- <v-select
-              v-model="meal.meal_category"
-              :items="store.mealTypeMap"
-              label="Måltidskategori"
-              outlined
-              dense
-            /> -->
-          <!-- <v-text-field
-              v-model="meal.meal_category_icon"
-              label="Ikon"
-              outlined
-              dense
-            /> -->
+          <v-text-field
+            v-model="meal.meal_category_icon"
+            label="Ikon (f.eks. mdi-pasta)"
+            variant="outlined"
+            density="comfortable"
+          />
+        </div>
 
-          <div class="">
-            <q-editor 
-              v-model="meal.procedure" 
-              dark 
-              label="Veiledning"
+        <div class="toggles">
+          <v-checkbox v-model="meal.protein_powder" label="Har ekstra proteinpulver" density="compact" hide-details />
+          <v-checkbox v-model="meal.heatable" label="Kan varmes" density="compact" hide-details />
+          <v-checkbox v-model="meal.must_be_heated" label="Må varmes" density="compact" hide-details />
+        </div>
+
+        <section class="section">
+          <h3>Fremgangsmåte</h3>
+          <q-editor v-model="meal.procedure" class="editor" min-height="130px" />
+        </section>
+
+        <section class="section">
+          <div class="section-head">
+            <h3>Ingredienser</h3>
+            <v-btn color="var(--app-primary)" variant="tonal" prepend-icon="mdi-plus" @click="addIngredient">
+              Legg til
+            </v-btn>
+          </div>
+
+          <div v-for="(ingredient, i) in meal.ingredients" :key="i" class="item-row">
+            <div class="grid ingredient-grid">
+              <v-autocomplete
+                v-model="ingredient.text"
+                label="Ingrediens"
+                :items="store.ingredients"
+                auto-select-first
+                variant="outlined"
+                density="comfortable"
               />
+              <v-autocomplete
+                v-model="ingredient.type"
+                label="Type (ss, dl, g)"
+                :items="store.ingredientUnits"
+                auto-select-first
+                variant="outlined"
+                density="comfortable"
+              />
+              <v-text-field v-model.number="ingredient.number" label="Antall" type="number" variant="outlined" density="comfortable" />
+              <v-text-field v-model.number="ingredient.grams" label="Gram" type="number" variant="outlined" density="comfortable" />
+            </div>
+            <v-btn color="#ba3d25" variant="text" prepend-icon="mdi-delete-outline" @click="removeIngredient(i)">Fjern</v-btn>
           </div>
+        </section>
 
-          <v-text-field
-              class="ma-2"
-              v-model="meal.image"
-              label="Bilde URL"
-              outlined
-              dense
-            />
-
-          <!-- Ingredients -->
-          <div class="mt-4" style="font-size: 20px;">Ingredienser</div>
-          <div
-            v-for="(ingredient, i) in meal.ingredients"
-            :key="i"
-            class="mb-2 pa-2"
-            style="border: 1px solid #ccc; border-radius: 4px"
-          >
-            <v-autocomplete
-              label="Navn"
-              :items="store.ingredients"
-              outlined
-              dense
-              v-model="ingredient.text"
-              auto-select-first
-            ></v-autocomplete>
-            <v-autocomplete
-              label="Type (ss, dl, g)"
-              :items="store.ingredientUnits"
-              outlined
-              dense
-              v-model="ingredient.type"
-              auto-select-first
-            ></v-autocomplete>
-            <v-text-field
-              v-model.number="ingredient.grams"
-              label="Gram"
-              type="number"
-              outlined
-              dense
-            />
-            <v-text-field
-              v-model.number="ingredient.number"
-              label="Antall fra type"
-              type="number"
-              outlined
-              dense
-            />
-            <v-btn
-              color="error"
-              @click="removeIngredient(i)"
-              variant="outlined"
-            >
-              Fjern
+        <section class="section">
+          <div class="section-head">
+            <h3>Ekstra proteinkilder</h3>
+            <v-btn color="var(--app-primary)" variant="tonal" prepend-icon="mdi-plus" @click="addProteinAddon">
+              Legg til
             </v-btn>
           </div>
-          <v-btn color="primary" variant="outlined" @click="addIngredient">
-            Legg til Ingrediens
-          </v-btn>
 
-          <!-- Protein Addons -->
-          <div class="mt-4" style="font-size: 20px;">Tillegsprotein</div>
-          <div
-            v-for="(addon, i) in meal.protein_addons"
-            :key="i"
-            class="mb-2 pa-2"
-            style="border: 1px solid #ccc; border-radius: 4px"
-          >
-            <v-text-field v-model="addon.text" label="Navn" outlined dense />
-            <v-text-field
-              v-model="addon.type"
-              label="Type (ss, dl, g)"
-              outlined
-              dense
-            />
-            <v-text-field
-              v-model.number="addon.grams"
-              label="Gram"
-              type="number"
-              outlined
-              dense
-            />
-            <v-text-field
-              v-model.number="addon.number"
-              label="Antall fra type"
-              type="number"
-              outlined
-              dense
-            />
-            <v-btn
-              color="error"
-              @click="removeProteinAddon(i)"
-              variant="outlined"
-            >
-              Fjern
-            </v-btn>
+          <div v-for="(addon, i) in meal.protein_addons" :key="i" class="item-row">
+            <div class="grid ingredient-grid">
+              <v-text-field v-model="addon.text" label="Navn" variant="outlined" density="comfortable" />
+              <v-text-field v-model="addon.type" label="Type (ss, dl, g)" variant="outlined" density="comfortable" />
+              <v-text-field v-model.number="addon.number" label="Antall" type="number" variant="outlined" density="comfortable" />
+              <v-text-field v-model.number="addon.grams" label="Gram" type="number" variant="outlined" density="comfortable" />
+            </div>
+            <v-btn color="#ba3d25" variant="text" prepend-icon="mdi-delete-outline" @click="removeProteinAddon(i)">Fjern</v-btn>
           </div>
-          <v-btn color="primary" variant="outlined" @click="addProteinAddon">
-            Legg til Tillegsprotein
-          </v-btn>
+        </section>
 
-          <!-- Nutrients -->
-          <div class="mt-4" style="font-size: 20px;">Næringsstoffer</div>
-          <v-text-field
-            v-model.number="meal.nutrients.calories"
-            label="Kalorier"
-            type="number"
-            outlined
-            dense
-          />
-          <v-text-field
-            v-model.number="meal.nutrients.protein"
-            label="Protein"
-            type="number"
-            outlined
-            dense
-          />
-          <v-text-field
-            v-model.number="meal.nutrients.carbs"
-            label="Karbohydrater"
-            type="number"
-            outlined
-            dense
-          />
-          <v-text-field
-            v-model.number="meal.nutrients.fat"
-            label="Fett"
-            type="number"
-            outlined
-            dense
-          />
-          <v-text-field
-            v-model.number="meal.nutrients.fibre"
-            label="Fiber"
-            type="number"
-            outlined
-            dense
-          />
-        </v-form>
+        <section class="section">
+          <h3>Næringsstoffer</h3>
+          <div class="grid nutrients-grid">
+            <v-text-field v-model.number="meal.nutrients.calories" label="Kalorier" type="number" variant="outlined" density="comfortable" />
+            <v-text-field v-model.number="meal.nutrients.protein" label="Protein" type="number" variant="outlined" density="comfortable" />
+            <v-text-field v-model.number="meal.nutrients.carbs" label="Karbohydrater" type="number" variant="outlined" density="comfortable" />
+            <v-text-field v-model.number="meal.nutrients.fat" label="Fett" type="number" variant="outlined" density="comfortable" />
+            <v-text-field v-model.number="meal.nutrients.fibre" label="Fiber" type="number" variant="outlined" density="comfortable" />
+          </div>
+        </section>
       </v-card-text>
 
-      <v-card-actions>
-        <v-btn color="success" @click="onSave"> Lagre </v-btn>
-        <v-btn color="error" @click="store.addMealDialog = false"> Lukk </v-btn>
+      <v-card-actions class="dialog-actions">
+        <v-btn color="var(--app-primary)" variant="flat" rounded="pill" @click="onSave">Lagre måltid</v-btn>
+        <v-btn color="#ba3d25" variant="text" rounded="pill" @click="store.addMealDialog = false">Lukk</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { useAppStore } from "../stores/app";
+import { ref } from 'vue'
+import { QEditor } from 'quasar'
+import { useAppStore } from '../stores/app'
 
-import { QEditor } from "quasar";
+const store = useAppStore()
 
-import '@quasar/extras/material-icons/material-icons.css';
-import 'quasar/dist/quasar.css'; // Ensure this line is included
-import '@quasar/extras/material-icons/material-icons.css'; // Import material icons for the toolbar
-
-
-
-// Pinia store
-const store = useAppStore();
-
-// Basic form structure:
-const meal = ref({
-  name: "",
+const emptyMeal = () => ({
+  name: '',
   rating: 0,
   portions: 1,
   protein_powder: false,
   heatable: false,
   must_be_heated: false,
   meal_type: [],
-  meal_category: "",
-  meal_category_icon: "",
-  procedure: "",
-  image: "",
-  date_time: "",
+  meal_category: [],
+  meal_category_icon: '',
+  procedure: '',
+  image: '',
+  date_time: '',
   ingredients: [],
   protein_addons: [],
   nutrients: {
@@ -249,86 +169,141 @@ const meal = ref({
     fat: 0,
     fibre: 0,
   },
-  // We'll store a comma-separated string for meal_type in the UI:
-  meal_typeStr: "",
-});
+})
 
-// Example initialization, if you want to prefill the fields:
-function initMeal() {
-  meal.value = {
-    name: "Brød med hvitost og kjøttpålegg",
-    rating: 3,
-    portions: 1,
-    protein_powder: false,
-    heatable: true,
-    must_be_heated: false,
-    meal_type: [0, 1, 3],
-    meal_category: "",
-    meal_category_icon: "mdi-bread-slice-outline",
-    procedure: "Kan om ønskelig varmes i ovn ...",
-    image: "https://...",
-    date_time: "",
-    ingredients: [
-      { text: "magert kjøttpålegg", type: "skiver", grams: 44, number: 4 },
-      { text: "hvitost", type: "skiver", grams: 26, number: 2 },
-    ],
-    protein_addons: [{ text: "Skyr", type: "boks", grams: 160, number: 1 }],
-    nutrients: {
-      calories: 400,
-      protein: 41,
-      carbs: 38,
-      fat: 8,
-      fibre: 0,
-    },
-    // Display meal_type as a string
-    meal_typeStr: "0,1,3",
-  };
-}
+const meal = ref(emptyMeal())
 
-// initMeal() // Uncomment if you want to auto-load data
-
-function parseMealTypeString(str) {
-  return str
-    .split(",")
-    .map((s) => s.trim())
-    .filter(Boolean)
-    .map(Number);
-}
-
-// Methods to add/remove items from arrays
 function addIngredient() {
-  meal.value.ingredients.push({ text: "", type: "", grams: 0, number: 0 });
+  meal.value.ingredients.push({ text: '', type: '', grams: 0, number: 0 })
 }
 
 function removeIngredient(index) {
-  meal.value.ingredients.splice(index, 1);
+  meal.value.ingredients.splice(index, 1)
 }
 
 function addProteinAddon() {
-  meal.value.protein_addons.push({ text: "", type: "", grams: 0, number: 0 });
+  meal.value.protein_addons.push({ text: '', type: '', grams: 0, number: 0 })
 }
 
 function removeProteinAddon(index) {
-  meal.value.protein_addons.splice(index, 1);
+  meal.value.protein_addons.splice(index, 1)
 }
 
-// Save method
 function onSave() {
-  // Convert comma-separated string to array
-  meal.value.meal_type = parseMealTypeString(meal.value.meal_typeStr);
-  // Call a store action that posts data to the API (example name: store.saveMeal)
-  store.saveMeal(meal.value);
+  store.saveMeal(meal.value)
+  meal.value = emptyMeal()
 }
 </script>
 
 <style scoped>
-.mt-4 {
-  margin-top: 1.5rem;
+.add-meal-card {
+  border-radius: 20px;
+  border: 1px solid var(--app-border);
+  background: var(--app-card);
 }
-.mb-2 {
-  margin-bottom: 0.75rem;
+
+.dialog-title {
+  padding: 18px 22px 8px;
 }
-.pa-2 {
-  padding: 0.75rem;
+
+.kicker {
+  margin: 0;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--app-muted);
+  font-weight: 700;
+}
+
+.dialog-title h2 {
+  margin: 2px 0 0;
+  font-size: 1.35rem;
+  color: var(--app-ink);
+}
+
+.dialog-body {
+  padding-top: 4px;
+  display: grid;
+  gap: 14px;
+}
+
+.grid {
+  display: grid;
+  gap: 10px;
+}
+
+.two-col {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.rating-wrap {
+  display: grid;
+  align-content: center;
+  gap: 6px;
+  border: 1px solid var(--app-border);
+  border-radius: 12px;
+  padding: 10px 12px;
+  background: color-mix(in srgb, var(--app-bg-soft) 70%, transparent);
+}
+
+.rating-wrap span {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--app-muted);
+}
+
+.toggles {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 4px 2px;
+}
+
+.section {
+  border: 1px solid var(--app-border);
+  border-radius: 14px;
+  padding: 12px;
+  background: color-mix(in srgb, var(--app-bg-soft) 70%, transparent);
+}
+
+.section h3 {
+  margin: 0 0 10px;
+  font-size: 0.95rem;
+  color: var(--app-ink);
+}
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.item-row {
+  border: 1px solid var(--app-border);
+  border-radius: 12px;
+  padding: 10px;
+  margin-bottom: 10px;
+  background: var(--app-card);
+}
+
+.ingredient-grid {
+  grid-template-columns: 1.3fr 1fr 120px 120px;
+}
+
+.nutrients-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.dialog-actions {
+  padding: 8px 22px 18px;
+}
+
+@media (max-width: 900px) {
+  .two-col,
+  .ingredient-grid,
+  .nutrients-grid {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
