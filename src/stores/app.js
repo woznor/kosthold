@@ -295,7 +295,7 @@ export const useAppStore = defineStore('app', {
     },
 
     async loadMealsFromFile() {
-      const response = await fetch('/meals.json')
+      const response = await fetch(`${import.meta.env.BASE_URL}meals.json`)
       if (!response.ok) {
         throw new Error(`Failed to load meals.json (${response.status})`)
       }
@@ -350,7 +350,7 @@ export const useAppStore = defineStore('app', {
 
     async fetchExcerises() {
       try {
-        const response = await fetch('/excercise.json')
+        const response = await fetch(`${import.meta.env.BASE_URL}excercise.json`)
         this.exercises = await response.json()
       } catch (error) {
         console.error('Error fetching exercises:', error)
