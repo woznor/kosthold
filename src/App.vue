@@ -51,4 +51,30 @@ body,
 .app-shell {
   background: transparent;
 }
+
+.app-shell .v-card,
+.app-shell .v-list,
+.app-shell .v-card-title,
+.app-shell .v-card-subtitle,
+.app-shell .v-card-text {
+  color: var(--app-ink);
+}
+
+.app-shell .v-field {
+  background: color-mix(in srgb, var(--app-card) 94%, transparent);
+}
+
+.app-shell .v-field__input,
+.app-shell .v-label,
+.app-shell .v-select__selection-text,
+.app-shell .v-field .v-icon,
+.app-shell .v-selection-control .v-label,
+.app-shell .v-tab {
+  color: var(--app-ink) !important;
+  opacity: 1 !important;
+}
+
+.app-shell .v-field input::placeholder {
+  color: color-mix(in srgb, var(--app-ink) 60%, transparent);
+}
 </style>

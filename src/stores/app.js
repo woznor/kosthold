@@ -57,6 +57,24 @@ function scaledMeal(meal, portions, mealTypeMap) {
   }
 }
 
+function isoDateFromOffset(offset) {
+  const date = new Date()
+  date.setHours(0, 0, 0, 0)
+  date.setDate(date.getDate() + offset)
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
+}
+
+function normalizeKey(value) {
+  return String(value || '')
+    .trim()
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+}
+
 export const useAppStore = defineStore('app', {
   state: () => ({
     // Arrays:
@@ -65,6 +83,8 @@ export const useAppStore = defineStore('app', {
     exercises: null,
     ingredients: [],
     ingredientUnits: [],
+    mealPlan: {},
+    hiddenShoppingItems: {},
 
     // Booleans:
     loading: false,
@@ -107,9 +127,150 @@ export const useAppStore = defineStore('app', {
 
       return filtered
     },
+
+    upcomingTwoWeeksPlan(state) {
+      const mealSource = state.baseMeals.length ? state.baseMeals : state.meals
+      const mealMap = new Map(mealSource.map((meal) => [meal.id, meal]))
+
+      return Array.from({ length: 14 }, (_, index) => {
+        const date = isoDateFromOffset(index)
+        const plannedMealIds = Array.isArray(state.mealPlan[date]) ? state.mealPlan[date] : []
+        const meals = plannedMealIds
+          .map((mealId) => mealMap.get(mealId))
+          .filter(Boolean)
+
+        return {
+          date,
+          meals,
+        }
+      })
+    },
+
+    shoppingList(state) {
+      const mealSource = state.baseMeals.length ? state.baseMeals : state.meals
+      const mealMap = new Map(mealSource.map((meal) => [meal.id, meal]))
+      const aggregateMap = new Map()
+
+      const upcomingDates = Array.from({ length: 14 }, (_, index) => isoDateFromOffset(index))
+
+      upcomingDates.forEach((date) => {
+        const plannedMealIds = Array.isArray(state.mealPlan[date]) ? state.mealPlan[date] : []
+        plannedMealIds.forEach((mealId) => {
+          const meal = mealMap.get(mealId)
+          if (!meal) return
+
+          const entries = [
+            ...(Array.isArray(meal.ingredients) ? meal.ingredients : []),
+            ...(Array.isArray(meal.protein_addons) ? meal.protein_addons : []),
+          ]
+
+          entries.forEach((entry) => {
+            const text = String(entry?.text || '').trim()
+            if (!text) return
+
+            const type = String(entry?.type || '').trim()
+            const key = `${normalizeKey(text)}__${normalizeKey(type)}`
+            const grams = Number(entry?.grams) || 0
+            const number = Number(entry?.number) || 0
+
+            if (!aggregateMap.has(key)) {
+              aggregateMap.set(key, {
+                key,
+                text,
+                type,
+                grams: 0,
+                number: 0,
+              })
+            }
+
+            const aggregate = aggregateMap.get(key)
+            aggregate.grams = round2(aggregate.grams + grams)
+            aggregate.number = round2(aggregate.number + number)
+          })
+        })
+      })
+
+      return Array.from(aggregateMap.values())
+        .filter((item) => !state.hiddenShoppingItems[item.key])
+        .sort((a, b) => a.text.localeCompare(b.text, 'nb'))
+    },
   },
 
   actions: {
+    loadMealPlan() {
+      try {
+        const raw = localStorage.getItem('mealPlan')
+        const parsed = raw ? JSON.parse(raw) : {}
+        this.mealPlan = parsed && typeof parsed === 'object' ? parsed : {}
+      } catch (error) {
+        console.error('Error loading meal plan:', error)
+        this.mealPlan = {}
+      }
+    },
+
+    persistMealPlan() {
+      localStorage.setItem('mealPlan', JSON.stringify(this.mealPlan))
+    },
+
+    loadHiddenShoppingItems() {
+      try {
+        const raw = localStorage.getItem('hiddenShoppingItems')
+        const parsed = raw ? JSON.parse(raw) : {}
+        this.hiddenShoppingItems = parsed && typeof parsed === 'object' ? parsed : {}
+      } catch (error) {
+        console.error('Error loading hidden shopping items:', error)
+        this.hiddenShoppingItems = {}
+      }
+    },
+
+    persistHiddenShoppingItems() {
+      localStorage.setItem('hiddenShoppingItems', JSON.stringify(this.hiddenShoppingItems))
+    },
+
+    removeShoppingItem(itemKey) {
+      this.hiddenShoppingItems = {
+        ...this.hiddenShoppingItems,
+        [itemKey]: true,
+      }
+      this.persistHiddenShoppingItems()
+    },
+
+    resetShoppingList() {
+      this.hiddenShoppingItems = {}
+      this.persistHiddenShoppingItems()
+    },
+
+    addMealToPlan(mealId, date) {
+      if (!date) return
+
+      const current = Array.isArray(this.mealPlan[date]) ? this.mealPlan[date] : []
+      if (!current.includes(mealId)) {
+        this.mealPlan = {
+          ...this.mealPlan,
+          [date]: [...current, mealId],
+        }
+        this.persistMealPlan()
+      }
+    },
+
+    removeMealFromPlan(date, mealId) {
+      const current = Array.isArray(this.mealPlan[date]) ? this.mealPlan[date] : []
+      const next = current.filter((id) => id !== mealId)
+
+      if (next.length === 0) {
+        const updated = { ...this.mealPlan }
+        delete updated[date]
+        this.mealPlan = updated
+      } else {
+        this.mealPlan = {
+          ...this.mealPlan,
+          [date]: next,
+        }
+      }
+
+      this.persistMealPlan()
+    },
+
     recalculateMetadata() {
       const ingredientSet = new Set()
       const unitSet = new Set()
@@ -198,6 +359,15 @@ export const useAppStore = defineStore('app', {
 
     deleteMeal(id) {
       this.baseMeals = this.baseMeals.filter((meal) => meal.id !== id)
+      const updatedPlan = {}
+
+      Object.entries(this.mealPlan).forEach(([date, mealIds]) => {
+        const kept = mealIds.filter((mealId) => mealId !== id)
+        if (kept.length) updatedPlan[date] = kept
+      })
+
+      this.mealPlan = updatedPlan
+      this.persistMealPlan()
       this.recalculateMetadata()
       this.updateRenderedMeals()
     },

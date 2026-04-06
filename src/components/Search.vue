@@ -56,6 +56,20 @@ const store = useAppStore()
   gap: 10px;
 }
 
+.filters :deep(.v-field) {
+  background: color-mix(in srgb, var(--app-card) 94%, transparent);
+}
+
+.filters :deep(.v-field__input),
+.filters :deep(.v-label),
+.filters :deep(.v-icon) {
+  color: var(--app-ink) !important;
+}
+
+.filters :deep(input::placeholder) {
+  color: color-mix(in srgb, var(--app-ink) 60%, transparent);
+}
+
 @media (max-width: 900px) {
   .filters {
     grid-template-columns: 1fr;

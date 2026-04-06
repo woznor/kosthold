@@ -50,10 +50,13 @@ defineProps({
   border-radius: 12px;
   min-height: 32px;
   font-size: 12px;
+  color: #1f2a37;
 }
 
 .nutrient strong {
   font-size: 13px;
+  color: #1f2a37;
+  font-weight: 800;
 }
 
 .nutrient small {

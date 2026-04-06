@@ -3,8 +3,8 @@
     <v-card class="add-meal-card">
       <v-card-title class="dialog-title">
         <div>
-          <p class="kicker">Nytt måltid</p>
-          <h2>Legg til måltid</h2>
+          <p class="kicker">Nytt m?ltid</p>
+          <h2>Legg til m?ltid</h2>
         </div>
       </v-card-title>
 
@@ -41,7 +41,7 @@
           <v-combobox
             v-model="meal.meal_category"
             :items="store.mealTypeMap"
-            label="Måltidstype"
+            label="M?ltidstype"
             variant="outlined"
             density="comfortable"
             multiple
@@ -60,11 +60,11 @@
         <div class="toggles">
           <v-checkbox v-model="meal.protein_powder" label="Har ekstra proteinpulver" density="compact" hide-details />
           <v-checkbox v-model="meal.heatable" label="Kan varmes" density="compact" hide-details />
-          <v-checkbox v-model="meal.must_be_heated" label="Må varmes" density="compact" hide-details />
+          <v-checkbox v-model="meal.must_be_heated" label="M? varmes" density="compact" hide-details />
         </div>
 
         <section class="section">
-          <h3>Fremgangsmåte</h3>
+          <h3>Fremgangsm?te</h3>
           <q-editor v-model="meal.procedure" class="editor" min-height="130px" />
         </section>
 
@@ -121,7 +121,7 @@
         </section>
 
         <section class="section">
-          <h3>Næringsstoffer</h3>
+          <h3>N?ringsstoffer</h3>
           <div class="grid nutrients-grid">
             <v-text-field v-model.number="meal.nutrients.calories" label="Kalorier" type="number" variant="outlined" density="comfortable" />
             <v-text-field v-model.number="meal.nutrients.protein" label="Protein" type="number" variant="outlined" density="comfortable" />
@@ -133,7 +133,7 @@
       </v-card-text>
 
       <v-card-actions class="dialog-actions">
-        <v-btn color="var(--app-primary)" variant="flat" rounded="pill" @click="onSave">Lagre måltid</v-btn>
+        <v-btn color="var(--app-primary)" variant="flat" rounded="pill" @click="onSave">Lagre m?ltid</v-btn>
         <v-btn color="#ba3d25" variant="text" rounded="pill" @click="store.addMealDialog = false">Lukk</v-btn>
       </v-card-actions>
     </v-card>
@@ -200,6 +200,9 @@ function onSave() {
   border-radius: 20px;
   border: 1px solid var(--app-border);
   background: var(--app-card);
+  color: var(--app-ink);
+  max-height: min(88vh, 980px);
+  overflow: auto;
 }
 
 .dialog-title {
@@ -225,6 +228,24 @@ function onSave() {
   padding-top: 4px;
   display: grid;
   gap: 14px;
+}
+
+.dialog-body :deep(.v-field) {
+  background: color-mix(in srgb, var(--app-card) 94%, transparent);
+}
+
+.dialog-body :deep(.v-field__input),
+.dialog-body :deep(.v-label),
+.dialog-body :deep(.v-icon),
+.dialog-body :deep(.v-selection-control__wrapper),
+.dialog-body :deep(.v-selection-control__input),
+.dialog-body :deep(.v-selection-control .v-label) {
+  color: var(--app-ink) !important;
+  opacity: 1;
+}
+
+.dialog-body :deep(input::placeholder) {
+  color: color-mix(in srgb, var(--app-ink) 65%, transparent);
 }
 
 .grid {
@@ -269,6 +290,22 @@ function onSave() {
 .section h3 {
   margin: 0 0 10px;
   font-size: 0.95rem;
+  color: var(--app-ink);
+}
+
+.editor :deep(.q-editor) {
+  border: 1px solid var(--app-border);
+  border-radius: 12px;
+  background: var(--app-card);
+}
+
+.editor :deep(.q-editor__toolbar) {
+  background: color-mix(in srgb, var(--app-bg-soft) 80%, transparent);
+}
+
+.editor :deep(.q-editor__content),
+.editor :deep(.q-editor__toolbar .q-btn),
+.editor :deep(.q-editor__toolbar .q-icon) {
   color: var(--app-ink);
 }
 

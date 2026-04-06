@@ -7,7 +7,7 @@
       </div>
 
       <div class="hero-controls">
-        <p class="hero-meta">{{ store.filteredMeals.length }} m?ltider tilgjengelig</p>
+        <p class="hero-meta">{{ store.filteredMeals.length }} måltider tilgjengelig</p>
         <v-btn
           :icon="isDark ? 'mdi-weather-night' : 'mdi-white-balance-sunny'"
           size="small"
@@ -20,12 +20,12 @@
 
     <v-tabs v-model="tab" class="tabs" color="var(--app-primary)">
       <v-tab>Måltider</v-tab>
-      <v-tab>Trening</v-tab>
+      <v-tab>Kommende 2 uker</v-tab>
     </v-tabs>
 
     <section class="content">
       <MealCard v-if="tab === 0" />
-      <Exercise v-else />
+      <UpcomingWeeks v-else />
     </section>
   </div>
 </template>
@@ -33,6 +33,7 @@
 <script setup>
 import { onMounted, watch } from 'vue'
 import MealCard from '@/components/MealCard.vue'
+import UpcomingWeeks from '@/components/UpcomingWeeks.vue'
 import { useAppStore } from '../stores/app'
 
 const store = useAppStore()
@@ -50,7 +51,8 @@ function toggleTheme() {
 
 onMounted(() => {
   store.fetchMeals()
-  store.fetchExcerises()
+  store.loadMealPlan()
+  store.loadHiddenShoppingItems()
   store.fetchIngredients()
   store.fetchIngredientUnits()
 
