@@ -5,19 +5,44 @@ function round2(value) {
   return Math.round((Number(value) || 0) * 100) / 100
 }
 
+function toMealCategoryName(value, mealTypeMap) {
+  if (typeof value === 'number') {
+    return mealTypeMap[value] || ''
+  }
+
+  if (typeof value === 'string') {
+    const trimmed = value.trim()
+    if (!trimmed) return ''
+
+    const numeric = Number(trimmed)
+    if (Number.isInteger(numeric) && mealTypeMap[numeric]) {
+      return mealTypeMap[numeric]
+    }
+
+    return trimmed
+  }
+
+  return ''
+}
+
 function toMealCategories(meal, mealTypeMap) {
   if (Array.isArray(meal.meal_category)) {
-    return meal.meal_category
+    const categories = meal.meal_category
+      .map((value) => toMealCategoryName(value, mealTypeMap))
+      .filter(Boolean)
+    if (categories.length) return categories
   }
 
   if (Array.isArray(meal.meal_type)) {
-    return meal.meal_type
-      .map((num) => mealTypeMap[num])
+    const categories = meal.meal_type
+      .map((value) => toMealCategoryName(value, mealTypeMap))
       .filter(Boolean)
+    if (categories.length) return categories
   }
 
   if (typeof meal.meal_category === 'string' && meal.meal_category) {
-    return [meal.meal_category]
+    const category = toMealCategoryName(meal.meal_category, mealTypeMap)
+    if (category) return [category]
   }
 
   return []

@@ -1,1 +1,0 @@
-import{H as r,a_ as a,C as u,b0 as i}from"./index-DbMmcmgG.js";const l=(o,t)=>{const s=o.__vccOpts||o;for(const[e,n]of t)s[e]=n;return s};function d(){const o=r(!1);return a(()=>{window.requestAnimationFrame(()=>{o.value=!0})}),{ssrBootStyles:u(()=>o.value?void 0:{transition:"none !important"}),isBooted:i(o)}}export{l as _,d as u};
