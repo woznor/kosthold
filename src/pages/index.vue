@@ -2,11 +2,11 @@
   <div class="page-wrap">
     <header class="hero">
       <div>
-        <p class="hero-kicker">Kostholdsplan</p>
+        <h1 class="hero-kicker">Oppskrifter</h1>
       </div>
 
       <div class="hero-controls">
-        <p class="hero-meta">{{ store.filteredMeals.length }} måltider tilgjengelig</p>
+        <p class="hero-meta">Viser {{ store.filteredMeals.length }} måltider</p>
         <v-btn
           :icon="isDark ? 'mdi-weather-night' : 'mdi-white-balance-sunny'"
           size="small"
