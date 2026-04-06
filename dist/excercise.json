@@ -1,0 +1,173 @@
+[
+    {
+        "name": "Brystpress i maskin",
+        "type": "Bryst",
+        "set": 3,
+        "rep": 10,
+        "image": "",
+        "text": "",
+        "day": 0,
+        "day_text": "Mandag",
+        "muscle_groups": ["Bryst"]
+    },
+    {
+        "name": "Knebøy",
+        "type": "Bein",
+        "set": 3,
+        "rep": 10,
+        "image": "",
+        "day": 0,
+        "day_text": "Mandag",
+        "muscle_groups": ["Quadriceps", "Setemuskler"]
+    },
+    {
+        "name": "Nedtrekk, smalt grep",
+        "type": "Rygg",
+        "set": 3,
+        "rep": 10,
+        "image": "",
+        "day": 0,
+        "day_text": "Mandag",
+        "muscle_groups": ["Latissimus Dorsi", "Biceps"]
+    },
+    {
+        "name": "Rumensk markløft",
+        "type": "Bein",
+        "set": 3,
+        "rep": 10,
+        "image": "",
+        "day": 0,
+        "day_text": "Mandag",
+        "muscle_groups": ["Hamstrings", "Setemuskler"]
+    },
+    {
+        "name": "Skulderpress, stang",
+        "type": "Skuldre",
+        "set": 3,
+        "rep": 10,
+        "image": "",
+        "day": 0,
+        "day_text": "Mandag",
+        "muscle_groups": ["Deltoids", "Triceps"]
+    },
+    {
+        "name": "Utspark",
+        "type": "Bein",
+        "set": 3,
+        "rep": 10,
+        "image": "",
+        "day": 0,
+        "day_text": "Mandag",
+        "muscle_groups": ["Quadriceps"]
+    },
+    {
+        "name": "Hantelpress, skråbenk",
+        "type": "Bryst",
+        "set": 3,
+        "rep": 10,
+        "image": "",
+        "day": 1,
+        "day_text": "Tirsdag",
+        "muscle_groups": ["Bryst", "Skuldre"]
+    },
+    {
+        "name": "Nedtrekk, bredt grep",
+        "type": "Rygg",
+        "set": 3,
+        "rep": 10,
+        "image": "",
+        "day": 1,
+        "day_text": "Tirsdag",
+        "muscle_groups": ["Latissimus Dorsi", "Biceps"]
+    },
+    {
+        "name": "Skulderpress, hantler",
+        "type": "Skuldre",
+        "set": 3,
+        "rep": 10,
+        "image": "",
+        "day": 1,
+        "day_text": "Tirsdag",
+        "muscle_groups": ["Deltoids", "Triceps"]
+    },
+    {
+        "name": "Sittende roing",
+        "type": "Rygg",
+        "set": 3,
+        "rep": 10,
+        "image": "",
+        "day": 1,
+        "day_text": "Tirsdag",
+        "muscle_groups": ["Latissimus Dorsi", "Rhomboids"]
+    },
+    {
+        "name": "Sidehev med hantler",
+        "type": "Skuldre",
+        "set": 3,
+        "rep": 10,
+        "image": "",
+        "day": 1,
+        "day_text": "Tirsdag",
+        "muscle_groups": ["Deltoids"]
+    },
+    {
+        "name": "Tricepspress med tau",
+        "type": "Armer",
+        "set": 3,
+        "rep": 12,
+        "image": "",
+        "day": 1,
+        "day_text": "Tirsdag",
+        "muscle_groups": ["Triceps"]
+    },
+    {
+        "name": "Benpress",
+        "type": "Bein",
+        "set": 3,
+        "rep": 10,
+        "image": "",
+        "day": 3,
+        "day_text": "Torsdag",
+        "muscle_groups": ["Quadriceps", "Setemuskler"]
+    },
+    {
+        "name": "Hip thrust med stang",
+        "type": "Bein",
+        "set": 3,
+        "rep": 10,
+        "image": "",
+        "day": 3,
+        "day_text": "Torsdag",
+        "muscle_groups": ["Setemuskler", "Hamstrings"]
+    },
+    {
+        "name": "Bulgarsk utfall",
+        "type": "Bein",
+        "set": 6,
+        "rep": 8,
+        "image": "",
+        "day": 3,
+        "day_text": "Torsdag",
+        "muscle_groups": ["Quadriceps", "Setemuskler"]
+    },
+    {
+        "name": "45 graders rygghev",
+        "type": "Rygg",
+        "set": 3,
+        "rep": 10,
+        "image": "",
+        "day": 3,
+        "day_text": "Torsdag",
+        "muscle_groups": ["Erector Spinae", "Setemuskler"]
+    },
+    {
+        "name": "Sittende lårcurl",
+        "type": "Bein",
+        "set": 3,
+        "rep": 10,
+        "image": "",
+        "day": 3,
+        "day_text": "Torsdag",
+        "muscle_groups": ["Hamstrings"]
+    }
+]
