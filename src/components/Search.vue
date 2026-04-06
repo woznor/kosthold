@@ -21,17 +21,6 @@
         hide-details
       />
 
-      <v-text-field
-        v-model.number="store.portions"
-        label="Porsjoner"
-        type="number"
-        min="1"
-        prepend-inner-icon="mdi-silverware-fork-knife"
-        variant="outlined"
-        density="comfortable"
-        hide-details
-        @change="store.fetchMeals()"
-      />
     </div>
   </v-card>
 </template>
@@ -52,7 +41,7 @@ const store = useAppStore()
 
 .filters {
   display: grid;
-  grid-template-columns: 1.3fr 1fr 160px;
+  grid-template-columns: 1.3fr 1fr;
   gap: 10px;
 }
 

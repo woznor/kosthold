@@ -53,7 +53,10 @@
         <v-card-text>
           <div v-if="day.meals.length" class="meal-list">
             <div v-for="meal in day.meals" :key="`${day.date}-${meal.id}`" class="planned-item">
-              <span>{{ meal.name }}</span>
+              <div class="planned-main">
+                <span>{{ meal.name }}</span>
+                <span class="planned-portions">{{ meal.plannedPortions }} porsjon{{ meal.plannedPortions === 1 ? '' : 'er' }}</span>
+              </div>
               <v-btn
                 icon="mdi-close"
                 size="x-small"
@@ -164,6 +167,16 @@ function formatDate(isoDate) {
   background: color-mix(in srgb, var(--app-bg-soft) 60%, transparent);
   padding: 6px 8px;
   font-size: 13px;
+}
+
+.planned-main {
+  display: grid;
+  gap: 2px;
+}
+
+.planned-portions {
+  font-size: 12px;
+  color: var(--app-muted);
 }
 
 .empty {

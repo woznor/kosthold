@@ -74,6 +74,15 @@
             density="comfortable"
             class="plan-select"
           />
+          <v-text-field
+            v-model.number="selectedPortions"
+            label="Porsjoner"
+            type="number"
+            min="1"
+            variant="outlined"
+            density="comfortable"
+            class="plan-select"
+          />
         </v-card-text>
         <v-card-actions>
           <v-spacer />
@@ -95,6 +104,7 @@ const store = useAppStore()
 const planDialog = ref(false)
 const selectedMeal = ref(null)
 const selectedDate = ref('')
+const selectedPortions = ref(1)
 
 const dayFormatter = new Intl.DateTimeFormat('nb-NO', {
   weekday: 'long',
@@ -116,12 +126,13 @@ const dayOptions = computed(() =>
 function openPlanDialog(meal) {
   selectedMeal.value = meal
   selectedDate.value = dayOptions.value[0]?.value || ''
+  selectedPortions.value = 1
   planDialog.value = true
 }
 
 function confirmPlan() {
   if (!selectedMeal.value || !selectedDate.value) return
-  store.addMealToPlan(selectedMeal.value.id, selectedDate.value)
+  store.addMealToPlan(selectedMeal.value.id, selectedDate.value, selectedPortions.value)
   planDialog.value = false
 }
 </script>

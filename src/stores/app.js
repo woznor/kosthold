@@ -100,6 +100,34 @@ function normalizeKey(value) {
     .replace(/[\u0300-\u036f]/g, '')
 }
 
+function toNumber(value, fallback = 0) {
+  const parsed = Number(value)
+  return Number.isFinite(parsed) ? parsed : fallback
+}
+
+function normalizePlannedEntry(entry) {
+  if (typeof entry === 'number' || typeof entry === 'string') {
+    const mealId = toNumber(entry, NaN)
+    if (Number.isNaN(mealId)) return null
+    return { mealId, portions: 1 }
+  }
+
+  if (!entry || typeof entry !== 'object') return null
+
+  const mealId = toNumber(entry.mealId ?? entry.id, NaN)
+  if (Number.isNaN(mealId)) return null
+
+  return {
+    mealId,
+    portions: Math.max(1, toNumber(entry.portions, 1)),
+  }
+}
+
+function plannedEntriesForDate(mealPlan, date) {
+  const source = Array.isArray(mealPlan[date]) ? mealPlan[date] : []
+  return source.map(normalizePlannedEntry).filter(Boolean)
+}
+
 export const useAppStore = defineStore('app', {
   state: () => ({
     // Arrays:
@@ -117,7 +145,6 @@ export const useAppStore = defineStore('app', {
     // Filters:
     searchTerm: null,
     selectedMealType: null,
-    portions: 1,
 
     // Select values:
     mealTypeMap: ['Frokost', 'Lunsj', 'Middag', 'Kveldsmat'],
@@ -159,9 +186,15 @@ export const useAppStore = defineStore('app', {
 
       return Array.from({ length: 14 }, (_, index) => {
         const date = isoDateFromOffset(index)
-        const plannedMealIds = Array.isArray(state.mealPlan[date]) ? state.mealPlan[date] : []
-        const meals = plannedMealIds
-          .map((mealId) => mealMap.get(mealId))
+        const meals = plannedEntriesForDate(state.mealPlan, date)
+          .map((entry) => {
+            const meal = mealMap.get(entry.mealId)
+            if (!meal) return null
+            return {
+              ...meal,
+              plannedPortions: entry.portions,
+            }
+          })
           .filter(Boolean)
 
         return {
@@ -179,11 +212,13 @@ export const useAppStore = defineStore('app', {
       const upcomingDates = Array.from({ length: 14 }, (_, index) => isoDateFromOffset(index))
 
       upcomingDates.forEach((date) => {
-        const plannedMealIds = Array.isArray(state.mealPlan[date]) ? state.mealPlan[date] : []
-        plannedMealIds.forEach((mealId) => {
-          const meal = mealMap.get(mealId)
+        const plannedEntries = plannedEntriesForDate(state.mealPlan, date)
+        plannedEntries.forEach((entry) => {
+          const meal = mealMap.get(entry.mealId)
           if (!meal) return
 
+          const basePortions = Math.max(1, Number(meal.portions) || 1)
+          const scale = entry.portions / basePortions
           const entries = [
             ...(Array.isArray(meal.ingredients) ? meal.ingredients : []),
             ...(Array.isArray(meal.protein_addons) ? meal.protein_addons : []),
@@ -195,8 +230,8 @@ export const useAppStore = defineStore('app', {
 
             const type = String(entry?.type || '').trim()
             const key = `${normalizeKey(text)}__${normalizeKey(type)}`
-            const grams = Number(entry?.grams) || 0
-            const number = Number(entry?.number) || 0
+            const grams = round2((Number(entry?.grams) || 0) * scale)
+            const number = round2((Number(entry?.number) || 0) * scale)
 
             if (!aggregateMap.has(key)) {
               aggregateMap.set(key, {
@@ -226,7 +261,19 @@ export const useAppStore = defineStore('app', {
       try {
         const raw = localStorage.getItem('mealPlan')
         const parsed = raw ? JSON.parse(raw) : {}
-        this.mealPlan = parsed && typeof parsed === 'object' ? parsed : {}
+        if (!parsed || typeof parsed !== 'object') {
+          this.mealPlan = {}
+          return
+        }
+
+        const normalized = {}
+        Object.entries(parsed).forEach(([date, values]) => {
+          const entries = Array.isArray(values)
+            ? values.map(normalizePlannedEntry).filter(Boolean)
+            : []
+          if (entries.length) normalized[date] = entries
+        })
+        this.mealPlan = normalized
       } catch (error) {
         console.error('Error loading meal plan:', error)
         this.mealPlan = {}
@@ -265,22 +312,32 @@ export const useAppStore = defineStore('app', {
       this.persistHiddenShoppingItems()
     },
 
-    addMealToPlan(mealId, date) {
+    addMealToPlan(mealId, date, portions = 1) {
       if (!date) return
 
-      const current = Array.isArray(this.mealPlan[date]) ? this.mealPlan[date] : []
-      if (!current.includes(mealId)) {
-        this.mealPlan = {
-          ...this.mealPlan,
-          [date]: [...current, mealId],
+      const current = plannedEntriesForDate(this.mealPlan, date)
+      const nextPortions = Math.max(1, Number(portions) || 1)
+      const existingIndex = current.findIndex((entry) => entry.mealId === mealId)
+
+      if (existingIndex >= 0) {
+        current[existingIndex] = {
+          ...current[existingIndex],
+          portions: nextPortions,
         }
-        this.persistMealPlan()
+      } else {
+        current.push({ mealId, portions: nextPortions })
       }
+
+      this.mealPlan = {
+        ...this.mealPlan,
+        [date]: current,
+      }
+      this.persistMealPlan()
     },
 
     removeMealFromPlan(date, mealId) {
-      const current = Array.isArray(this.mealPlan[date]) ? this.mealPlan[date] : []
-      const next = current.filter((id) => id !== mealId)
+      const current = plannedEntriesForDate(this.mealPlan, date)
+      const next = current.filter((entry) => entry.mealId !== mealId)
 
       if (next.length === 0) {
         const updated = { ...this.mealPlan }
@@ -315,7 +372,7 @@ export const useAppStore = defineStore('app', {
 
     updateRenderedMeals() {
       this.meals = this.baseMeals.map((meal) =>
-        scaledMeal(meal, this.portions, this.mealTypeMap)
+        scaledMeal(meal, meal.portions, this.mealTypeMap)
       )
     },
 
@@ -387,7 +444,8 @@ export const useAppStore = defineStore('app', {
       const updatedPlan = {}
 
       Object.entries(this.mealPlan).forEach(([date, mealIds]) => {
-        const kept = mealIds.filter((mealId) => mealId !== id)
+        const kept = plannedEntriesForDate(this.mealPlan, date)
+          .filter((entry) => entry.mealId !== id)
         if (kept.length) updatedPlan[date] = kept
       })
 
