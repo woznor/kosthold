@@ -1608,7 +1608,7 @@
         "meal_category_icon": "mdi-food-variant",
         "name": "Egenkomponert middag",
         "procedure": "",
-        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShlttp4j2eUiaHUzdD7dETpPQhfwqBLiGDxQ&s",
+        "image": "/meal-images/8c3de714-684c-41f9-a908-862c2e763597.jpg",
         "date_time": "",
         "ingredients": [
             {
@@ -1660,7 +1660,7 @@
         "meal_category_icon": "mdi-food-drumstick-outline",
         "name": "Tikka masala",
         "procedure": "Stek kylling med garam masala, salt, oppkuttet paprika, finhakket hvitløk og ingefær. Bland inn lett creme fraiche og smak til med krydder. La putre i 5-10 min og server med ris/salat.",
-        "image": "https://gurki.no/images/cover_img/tikka-masala1.jpg",
+        "image": "/meal-images/82ddf11c-684c-4704-a709-290354138eca.jpg",
         "date_time": "",
         "ingredients": [
             {
@@ -1724,7 +1724,7 @@
         "meal_category_icon": "mdi-nachos",
         "name": "Nachos",
         "procedure": "Stek karbonadedeig med tacokrydder. Fordel nachochips utover bakepapir og legg på kjøttdeig, bønner og ost. Gratiner på 200 grader til osten er gyllen. Topp med tomater og andre grønnsaker.",
-        "image": "https://brandsitesplatform-res.cloudinary.com/image/fetch/w_800,c_scale,q_auto:eco,f_auto,fl_lossy,dpr_1.0,e_sharpen:85/https://assets.brandplatform.generalmills.com%2F-%2Fmedia%2Fproject%2Fgmi%2Foldelpaso%2Foldelpaso-us%2Frecipes%2Fgosa9gpqd0a6exkliimkqw_gmi_hi_res_jpeg.jpeg%3F",
+        "image": "/meal-images/94dff995-d988-44c8-b233-b31bf9bd3de2.jpg",
         "date_time": "",
         "ingredients": [
             {
@@ -1776,7 +1776,7 @@
         "meal_category_icon": "mdi-food",
         "name": "Kjøttkaker med ertestuing",
         "procedure": "",
-        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyrDw1dI-2Y1YHhrKIesmbRzBH_h2niuHQ4Q&s",
+        "image": "/meal-images/709bd7ba-e754-41a3-b266-72ad5582c7f2.jpg",
         "date_time": "",
         "ingredients": [
             {
@@ -1870,7 +1870,7 @@
         "meal_category_icon": "mdi-hamburger",
         "name": "Fiskeburger",
         "procedure": "Kutt opp grønnsaker. Lag dressing av mager kesam, sitronsaft og hvitløk. Varm burgerbrød, legg på grønnsaker, dressing og fiskeburger.",
-        "image": "https://trinesmatblogg.no/wp-content/uploads/2013/02/IMG_2689.jpg",
+        "image": "/meal-images/a8b6ad71-d1e5-4a1d-9f18-add0fab0b691.jpg",
         "date_time": "",
         "ingredients": [
             {
@@ -1940,7 +1940,7 @@
         "meal_category_icon": "mdi-hamburger",
         "name": "Double cheeseburger",
         "procedure": "Form karbonadedeigen til 2 burgere, stek i panne. Skjær potet i strimler og stek i ovn/airfryer. Legg cheddar på burgerne og server i burgerbrød.",
-        "image": "https://www.burgerking.ee/images/optimized/products/meals-dbl-cheeseburger-desktop-3f91257ea004c6ec2cbf3146fec08dea.png",
+        "image": "/meal-images/b10a4951-1482-4c14-9f94-e6992d4053f8.jpg",
         "date_time": "",
         "ingredients": [
             {
@@ -1992,7 +1992,7 @@
         "meal_category_icon": "mdi-fish",
         "name": "Panert torsk med proteinrik saus og potet",
         "procedure": "",
-        "image": "https://mills.no/content/uploads/2016/03/torsk_web-scaled.jpg",
+        "image": "/meal-images/d25f4d3f-7395-4943-86bf-3d8774386dd3.jpg",
         "date_time": "",
         "ingredients": [
             {
@@ -2080,7 +2080,7 @@
         "meal_category_icon": "mdi-pasta",
         "name": "Pastasalat",
         "procedure": "Lag dressing av fetaost, kesam, pesto og kefirmelk. Kok pasta. Stek kylling og bacon i biter. Kok egg hardt og skjær i biter. Bland alt til salat.",
-        "image": "https://trinesmatblogg.no/wp-content/uploads/2024/06/IMG_9809.jpg",
+        "image": "/meal-images/d81dc77c-5db4-45f1-b700-489dfe847d3e.jpg",
         "date_time": "",
         "ingredients": [
             {
@@ -2162,7 +2162,7 @@
         "meal_category_icon": "mdi-pot-steam",
         "name": "Verdens beste lapskaus",
         "procedure": "Brun kjøttet i kasserolle. Skrell og kutt opp grønnsaker og ha over i kasserollen med kjøttet. Tilsett vann så det dekker grønnsakene, tilsett kyllingbuljong og la koke til lapskauskonsistens.",
-        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQko92TWIfIGmKxtYsLulfnBYVsKcEXiU5AjQ&s",
+        "image": "/meal-images/e7d97d9f-c740-4184-ba97-a0c2c7ffb3ef.jpg",
         "date_time": "",
         "ingredients": [
             {
@@ -2232,7 +2232,7 @@
         "meal_category_icon": "mdi-wrap",
         "name": "Crispy chicken i tortilla",
         "procedure": "Skjær kylling i biter og krydre. Vend i vispet egg og knuste cornflakes. Stek i airfryer/ovn på 180 grader i ca 15 min. Server i tortilla med grønt og dressing.",
-        "image": "https://sailorbailey.com/wp-content/uploads/2023/01/Crispy-Chicken-WrapsKey.jpg",
+        "image": "/meal-images/ebc1d1fb-cea6-400c-9ef8-cde94aacf4d8.jpg",
         "date_time": "",
         "ingredients": [
             {
@@ -2296,7 +2296,7 @@
         "meal_category_icon": "mdi-food-drumstick-outline",
         "name": "Tom Kah Gai",
         "procedure": "Kutt opp sjalottløk og ingefær i tynne skiver og stek i kjele. Tilsett currypaste, kokosmelk og buljong, kok i ca 10 min. Tilsett oppkuttet kylling og deretter sopp. Smak til med salt og lime.",
-        "image": "https://www.mashed.com/img/gallery/tom-kha-gai-thai-coconut-chicken-soup-recipe/l-intro-1680011894.jpg",
+        "image": "/meal-images/f5b227fc-fbaf-468c-ac08-2d2efec93388.jpg",
         "date_time": "",
         "ingredients": [
             {
@@ -2372,7 +2372,7 @@
         "meal_category_icon": "mdi-pasta",
         "name": "Barnevennlig superenkel mac n' cheese med sprø spekeskinke",
         "procedure": "Stek spekeskinke i airfryer/stekeovn til sprø. Kok makaroni. Rør inn smøreost, hvitost og valgfrie grønnsaker i varm makaroni. Topp med sprøstekt spekeskinke.",
-        "image": "https://whiteonricecouple.com/recipe/images/stove-top-mac-and-cheese-1.jpg",
+        "image": "/meal-images/f14e5c84-6d49-4d2a-8a97-b045d45d8759.jpg",
         "date_time": "",
         "ingredients": [
             {

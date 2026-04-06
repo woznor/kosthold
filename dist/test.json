@@ -1,0 +1,46 @@
+{
+    "name": "Brød med hvitost og kjøttpålegg",
+    "rating": 3,
+    "portions": 1,
+    "protein_powder": false,
+    "heatable": true,
+    "must_be_heated": false,
+    "meal_type": [0,1,3],
+    "meal_category": "",
+    "meal_category_icon": "mdi-bread-slice-outline",
+    "procedure": "Kan om ønskelig varmes i ovn ...",
+    "image": "https://...",
+    "date_time": "",
+  
+    "ingredients": [
+      {
+        "text": "magert kjøttpålegg",
+        "type": "skiver",
+        "grams": 44,
+        "number": 4
+      },
+      {
+        "text": "hvitost",
+        "type": "skiver",
+        "grams": 26,
+        "number": 2
+      }
+    ],
+  
+    "protein_addons": [
+      {
+        "text": "Skyr",
+        "type": "boks",
+        "grams": 160,
+        "number": 1
+      }
+    ],
+  
+    "nutrients": {
+      "calories": 400,
+      "protein": 41,
+      "carbs": 38,
+      "fat": 8,
+      "fibre": 0
+    }
+  }

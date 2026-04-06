@@ -15,7 +15,7 @@
           <v-progress-linear :active="isActive" color="var(--app-accent)" height="4" indeterminate />
         </template>
 
-        <v-img class="card-image" height="230" :src="item.image" cover>
+        <v-img class="card-image" :src="item.image" cover>
           <div class="image-overlay" />
         </v-img>
 
@@ -44,16 +44,17 @@
             rounded="pill"
             text="Velg måltid"
             @click="openPlanDialog(item)"
+            style="width: 100%;"
           />
           <v-spacer />
-          <v-btn
+          <!-- <v-btn
             color="#ba3d25"
             variant="text"
             rounded="pill"
             prepend-icon="mdi-delete-outline"
             text="Slett"
             @click="store.deleteMeal(item.id)"
-          />
+          /> -->
         </v-card-actions>
       </v-card>
     </div>
@@ -138,6 +139,8 @@ function confirmPlan() {
 }
 
 .meal-card {
+  display: flex;
+  flex-direction: column;
   border-radius: 20px;
   border: 1px solid var(--app-border);
   background: var(--app-card);
@@ -152,6 +155,7 @@ function confirmPlan() {
 
 .card-image {
   position: relative;
+  height: 230px;
 }
 
 .image-overlay {
@@ -176,9 +180,11 @@ function confirmPlan() {
 .details {
   display: grid;
   gap: 14px;
+  flex: 1;
 }
 
 .card-actions {
+  margin-top: auto;
   padding: 12px 16px 16px;
 }
 
@@ -221,5 +227,11 @@ function confirmPlan() {
 .plan-dialog :deep(.v-list),
 .plan-dialog :deep(.v-list-item-title) {
   color: var(--app-ink) !important;
+}
+
+@media (max-width: 760px) {
+  .card-image {
+    height: 140px;
+  }
 }
 </style>
