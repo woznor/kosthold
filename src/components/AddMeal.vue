@@ -3,8 +3,8 @@
     <v-card class="add-meal-card">
       <v-card-title class="dialog-title">
         <div>
-          <p class="kicker">Nytt m?ltid</p>
-          <h2>Legg til m?ltid</h2>
+          <p class="kicker">Nytt måltid</p>
+          <h2>Legg til måltid</h2>
         </div>
       </v-card-title>
 
@@ -41,7 +41,7 @@
           <v-combobox
             v-model="meal.meal_category"
             :items="store.mealTypeMap"
-            label="M?ltidstype"
+            label="Måltidstype"
             variant="outlined"
             density="comfortable"
             multiple

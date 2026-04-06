@@ -1,5 +1,5 @@
-<template>
-  <div class="meal-view">
+﻿<template>
+  <div class="meal-view" :class="{ 'compact-mobile': store.compactMobile }">
     <Search />
 
     <div class="meal-grid">
@@ -17,6 +17,14 @@
 
         <v-img class="card-image" :src="item.image" cover>
           <div class="image-overlay" />
+          <v-btn
+            class="favorite-btn"
+            :icon="store.isFavorite(item.id) ? 'mdi-heart' : 'mdi-heart-outline'"
+            :color="store.isFavorite(item.id) ? '#f25f5c' : 'white'"
+            size="small"
+            variant="flat"
+            @click.stop="toggleFavorite(item.id)"
+          />
         </v-img>
 
         <v-card-item>
@@ -47,20 +55,12 @@
             style="width: 100%;"
           />
           <v-spacer />
-          <!-- <v-btn
-            color="#ba3d25"
-            variant="text"
-            rounded="pill"
-            prepend-icon="mdi-delete-outline"
-            text="Slett"
-            @click="store.deleteMeal(item.id)"
-          /> -->
         </v-card-actions>
       </v-card>
     </div>
 
     <v-dialog v-model="planDialog" max-width="440">
-        <v-card class="plan-dialog" elevation="0">
+      <v-card class="plan-dialog" elevation="0">
         <v-card-title class="plan-title">Legg til i plan</v-card-title>
         <v-card-text>
           <p class="selected-name">{{ selectedMeal?.name || '' }}</p>
@@ -92,6 +92,10 @@
       </v-card>
     </v-dialog>
 
+    <v-snackbar v-model="addedFeedback" timeout="1400" color="var(--app-primary)">
+      Måltid lagt til i planen
+    </v-snackbar>
+
     <AddMeal />
   </div>
 </template>
@@ -105,6 +109,7 @@ const planDialog = ref(false)
 const selectedMeal = ref(null)
 const selectedDate = ref('')
 const selectedPortions = ref(1)
+const addedFeedback = ref(false)
 
 const dayFormatter = new Intl.DateTimeFormat('nb-NO', {
   weekday: 'long',
@@ -134,6 +139,11 @@ function confirmPlan() {
   if (!selectedMeal.value || !selectedDate.value) return
   store.addMealToPlan(selectedMeal.value.id, selectedDate.value, selectedPortions.value)
   planDialog.value = false
+  addedFeedback.value = true
+}
+
+function toggleFavorite(mealId) {
+  store.toggleFavoriteMeal(mealId)
 }
 </script>
 
@@ -156,7 +166,8 @@ function confirmPlan() {
   border: 1px solid var(--app-border);
   background: var(--app-card);
   overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  animation: fadeSlideIn 0.35s ease both;
 }
 
 .meal-card:hover {
@@ -167,6 +178,14 @@ function confirmPlan() {
 .card-image {
   position: relative;
   height: 230px;
+}
+
+.favorite-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  backdrop-filter: blur(4px);
 }
 
 .image-overlay {
@@ -240,9 +259,35 @@ function confirmPlan() {
   color: var(--app-ink) !important;
 }
 
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (max-width: 760px) {
   .card-image {
     height: 140px;
   }
+
+  .compact-mobile .card-image {
+    height: 84px;
+  }
+
+  .compact-mobile .details :deep(.v-expansion-panels),
+  .compact-mobile .details :deep(.v-expansion-panel-text) {
+    display: none;
+  }
+
+  .compact-mobile .details {
+    gap: 6px;
+  }
 }
 </style>
+

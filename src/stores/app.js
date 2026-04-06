@@ -128,6 +128,11 @@ function plannedEntriesForDate(mealPlan, date) {
   return source.map(normalizePlannedEntry).filter(Boolean)
 }
 
+function includesDinnerType(meal, mealTypeMap) {
+  const categories = toMealCategories(meal, mealTypeMap)
+  return categories.includes('Middag')
+}
+
 export const useAppStore = defineStore('app', {
   state: () => ({
     // Arrays:
@@ -138,9 +143,12 @@ export const useAppStore = defineStore('app', {
     ingredientUnits: [],
     mealPlan: {},
     hiddenShoppingItems: {},
+    favoriteMealIds: [],
 
     // Booleans:
     loading: false,
+    showFavoritesOnly: false,
+    compactMobile: false,
 
     // Filters:
     searchTerm: null,
@@ -176,6 +184,17 @@ export const useAppStore = defineStore('app', {
           meal.meal_category.includes(state.selectedMealType)
         )
       }
+
+      if (state.showFavoritesOnly) {
+        filtered = filtered.filter((meal) => state.favoriteMealIds.includes(meal.id))
+      }
+
+      filtered = [...filtered].sort((a, b) => {
+        const favA = state.favoriteMealIds.includes(a.id)
+        const favB = state.favoriteMealIds.includes(b.id)
+        if (favA === favB) return 0
+        return favA ? -1 : 1
+      })
 
       return filtered
     },
@@ -299,6 +318,51 @@ export const useAppStore = defineStore('app', {
       localStorage.setItem('hiddenShoppingItems', JSON.stringify(this.hiddenShoppingItems))
     },
 
+    loadFavorites() {
+      try {
+        const raw = localStorage.getItem('favoriteMealIds')
+        const parsed = raw ? JSON.parse(raw) : []
+        this.favoriteMealIds = Array.isArray(parsed)
+          ? parsed.map((id) => Number(id)).filter((id) => Number.isInteger(id))
+          : []
+      } catch (error) {
+        console.error('Error loading favorite meals:', error)
+        this.favoriteMealIds = []
+      }
+    },
+
+    persistFavorites() {
+      localStorage.setItem('favoriteMealIds', JSON.stringify(this.favoriteMealIds))
+    },
+
+    toggleFavoriteMeal(mealId) {
+      if (this.favoriteMealIds.includes(mealId)) {
+        this.favoriteMealIds = this.favoriteMealIds.filter((id) => id !== mealId)
+      } else {
+        this.favoriteMealIds = [...this.favoriteMealIds, mealId]
+      }
+      this.persistFavorites()
+    },
+
+    isFavorite(mealId) {
+      return this.favoriteMealIds.includes(mealId)
+    },
+
+    loadUiPreferences() {
+      this.showFavoritesOnly = localStorage.getItem('showFavoritesOnly') === '1'
+      this.compactMobile = localStorage.getItem('compactMobile') === '1'
+    },
+
+    setShowFavoritesOnly(value) {
+      this.showFavoritesOnly = Boolean(value)
+      localStorage.setItem('showFavoritesOnly', this.showFavoritesOnly ? '1' : '0')
+    },
+
+    setCompactMobile(value) {
+      this.compactMobile = Boolean(value)
+      localStorage.setItem('compactMobile', this.compactMobile ? '1' : '0')
+    },
+
     removeShoppingItem(itemKey) {
       this.hiddenShoppingItems = {
         ...this.hiddenShoppingItems,
@@ -310,6 +374,36 @@ export const useAppStore = defineStore('app', {
     resetShoppingList() {
       this.hiddenShoppingItems = {}
       this.persistHiddenShoppingItems()
+    },
+
+    autoPlanDinnerForTwoWeeks({ overwrite = false } = {}) {
+      const dinnerMeals = this.baseMeals.filter((meal) => includesDinnerType(meal, this.mealTypeMap))
+      if (!dinnerMeals.length) return
+
+      const mealMap = new Map(this.baseMeals.map((meal) => [meal.id, meal]))
+      const nextMealPlan = { ...this.mealPlan }
+      const startOffset = Math.floor(Math.random() * dinnerMeals.length)
+
+      Array.from({ length: 14 }, (_, index) => {
+        const date = isoDateFromOffset(index)
+        const current = overwrite ? [] : plannedEntriesForDate(nextMealPlan, date)
+
+        const hasDinner = current.some((entry) => {
+          const meal = mealMap.get(entry.mealId)
+          return meal ? includesDinnerType(meal, this.mealTypeMap) : false
+        })
+
+        if (hasDinner) {
+          nextMealPlan[date] = current
+          return
+        }
+
+        const meal = dinnerMeals[(startOffset + index) % dinnerMeals.length]
+        nextMealPlan[date] = [...current, { mealId: meal.id, portions: 1 }]
+      })
+
+      this.mealPlan = nextMealPlan
+      this.persistMealPlan()
     },
 
     addMealToPlan(mealId, date, portions = 1) {
@@ -441,6 +535,8 @@ export const useAppStore = defineStore('app', {
 
     deleteMeal(id) {
       this.baseMeals = this.baseMeals.filter((meal) => meal.id !== id)
+      this.favoriteMealIds = this.favoriteMealIds.filter((mealId) => mealId !== id)
+      this.persistFavorites()
       const updatedPlan = {}
 
       Object.entries(this.mealPlan).forEach(([date, mealIds]) => {

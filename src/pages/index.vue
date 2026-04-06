@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="page-wrap">
     <header class="hero">
       <div>
@@ -7,6 +7,15 @@
 
       <div class="hero-controls">
         <p class="hero-meta">Viser {{ store.filteredMeals.length }} måltider</p>
+        <!-- <v-btn
+          :icon="store.compactMobile ? 'mdi-cellphone-remove' : 'mdi-cellphone-text'"
+          size="small"
+          variant="tonal"
+          class="theme-btn"
+          @click="store.setCompactMobile(!store.compactMobile)"
+        >
+          Kompakt mobil
+        </v-btn> -->
         <v-btn
           :icon="isDark ? 'mdi-weather-night' : 'mdi-white-balance-sunny'"
           size="small"
@@ -39,7 +48,7 @@
 </template>
 
 <script setup>
-import { onMounted, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import MealCard from '@/components/MealCard.vue'
 import UpcomingWeeks from '@/components/UpcomingWeeks.vue'
 import { useAppStore } from '../stores/app'
@@ -66,6 +75,8 @@ onMounted(() => {
   store.fetchMeals()
   store.loadMealPlan()
   store.loadHiddenShoppingItems()
+  store.loadFavorites()
+  store.loadUiPreferences()
   store.fetchIngredients()
   store.fetchIngredientUnits()
 
@@ -158,3 +169,4 @@ watch(isDark, applyTheme)
   }
 }
 </style>
+

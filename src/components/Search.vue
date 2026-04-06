@@ -1,9 +1,9 @@
-<template>
+﻿<template>
   <v-card class="search-wrap" elevation="0">
     <div class="filters">
       <v-text-field
         v-model="store.searchTerm"
-        label="Søk måltid"
+        label="Søk Måltid"
         prepend-inner-icon="mdi-magnify"
         variant="outlined"
         density="comfortable"
@@ -21,6 +21,14 @@
         hide-details
       />
 
+      <v-switch
+        :model-value="store.showFavoritesOnly"
+        color="var(--app-primary)"
+        label="Kun favoritter"
+        hide-details
+        inset
+        @update:model-value="store.setShowFavoritesOnly"
+      />
     </div>
   </v-card>
 </template>
@@ -41,8 +49,9 @@ const store = useAppStore()
 
 .filters {
   display: grid;
-  grid-template-columns: 1.3fr 1fr;
+  grid-template-columns: 1.3fr 1fr auto;
   gap: 10px;
+  align-items: center;
 }
 
 .filters :deep(.v-field) {
@@ -59,9 +68,16 @@ const store = useAppStore()
   color: color-mix(in srgb, var(--app-ink) 60%, transparent);
 }
 
+.filters :deep(.v-switch .v-label) {
+  color: var(--app-ink);
+  opacity: 1;
+  font-weight: 600;
+}
+
 @media (max-width: 900px) {
   .filters {
     grid-template-columns: 1fr;
   }
 }
 </style>
+
