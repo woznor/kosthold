@@ -1,10 +1,61 @@
 <template>
   <v-app class="app-shell">
-    <router-view />
+    <div v-if="!isAuthenticated" class="auth-wrap">
+      <v-card class="auth-card" elevation="0">
+        <v-card-title class="auth-title">Låst side</v-card-title>
+        <v-card-text>
+          <p class="auth-copy">Skriv inn passord for å åpne planen.</p>
+          <v-text-field
+            v-model="passwordInput"
+            label="Passord"
+            type="password"
+            variant="outlined"
+            density="comfortable"
+            :error="hasError"
+            :error-messages="hasError ? ['Feil passord'] : []"
+            @keyup.enter="login"
+          />
+          <v-btn color="var(--app-primary)" variant="flat" block @click="login">Logg inn</v-btn>
+        </v-card-text>
+      </v-card>
+    </div>
+
+    <router-view v-else />
   </v-app>
 </template>
 
 <script setup>
+import { onMounted, ref } from 'vue'
+
+const AUTH_KEY = 'auth_ok'
+const PASSWORD_HASH = 'dfdae38fd30310922474a025dab9e5247fc9f2714dd1b848b53c871b90a31a5b'
+
+const isAuthenticated = ref(false)
+const passwordInput = ref('')
+const hasError = ref(false)
+
+async function sha256Hex(value) {
+  const data = new TextEncoder().encode(value)
+  const hash = await crypto.subtle.digest('SHA-256', data)
+  return Array.from(new Uint8Array(hash))
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('')
+}
+
+async function login() {
+  const inputHash = await sha256Hex(passwordInput.value)
+  if (inputHash === PASSWORD_HASH) {
+    isAuthenticated.value = true
+    hasError.value = false
+    localStorage.setItem(AUTH_KEY, '1')
+  } else {
+    hasError.value = true
+  }
+}
+
+onMounted(() => {
+  isAuthenticated.value = localStorage.getItem(AUTH_KEY) === '1'
+})
 </script>
 
 <style>
@@ -50,6 +101,29 @@ body,
 
 .app-shell {
   background: transparent;
+}
+
+.auth-wrap {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+}
+
+.auth-card {
+  width: min(420px, 100%);
+  border-radius: 16px;
+  border: 1px solid var(--app-border);
+  background: var(--app-card);
+}
+
+.auth-title {
+  font-weight: 800;
+}
+
+.auth-copy {
+  margin: 0 0 12px;
+  color: var(--app-muted);
 }
 
 .app-shell .v-card,

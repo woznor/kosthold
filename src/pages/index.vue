@@ -15,6 +15,15 @@
           class="theme-btn"
           @click="toggleTheme"
         />
+        <v-btn
+          size="small"
+          variant="tonal"
+          class="theme-btn"
+          prepend-icon="mdi-logout"
+          @click="logout"
+        >
+          Logg ut
+        </v-btn>
       </div>
     </header>
 
@@ -47,6 +56,11 @@ function applyTheme() {
 
 function toggleTheme() {
   isDark.value = !isDark.value
+}
+
+function logout() {
+  localStorage.removeItem('auth_ok')
+  window.location.reload()
 }
 
 onMounted(() => {
@@ -141,6 +155,7 @@ watch(isDark, applyTheme)
     align-self: stretch;
     justify-content: space-between;
     width: 100%;
+    flex-wrap: wrap;
   }
 }
 </style>
