@@ -12,7 +12,6 @@
     "kokosmelk lett": "Kokosmelk, mager, hermetisk",
     "salami gilde go og mager": "Salami, mager",
     "magert kjøttpålegg": "Salami, mager",
-    "mager cottage cheese": "Cottage cheese",
     "grovt brød": "Brød, grovt (50-75 %), kjøpt, kneipp",
     "hakket tomat hermetisk": "Tomat, hermetisk",
     "ingefærrot": "Ingefærrot, rå",
@@ -30,7 +29,6 @@
     "lettmelk": "Lettmelk, 1,0 % fett, Tine",
     "lettmelk 0 5": "Lettmelk, 1,0 % fett, Tine",
     "lettmelk 1 0": "Lettmelk, 1,0 % fett, Tine",
-    "skyr": "Skyr, bringebær",
     "potetmel": "Potetmel, potetstivelse",
     "sukkererter": "Sukkererter, norsk, rå",
     "spekeskinke grilstad lev litt lettere": "Spekeskinke",
@@ -48,7 +46,36 @@
     "gresk yoghurt": "Yoghurt, naturell, 2 % fett, gresk/tyrkisk",
     "rosenkål": "Rosenkål, kokt",
     "fetaost": "Feta, ost med geitmelk",
-    "lasagneplater": "Pasta, naturell, tørr"
+    "lasagneplater": "Pasta, naturell, tørr",
+    "agurk": "Agurk, norsk, rå",
+    "brune bønner eldorado": "Brune bønner, kokt",
+    "eggeplomme": "Eggeplomme, rå",
+    "grønn pesto": "Pesto, grønn, kjøpt",
+    "hvitløk finhakket": "Hvitløk, rå",
+    "isbergsalat": "Isbergsalat, issalat, norsk, rå",
+    "kefir syrnet melk": "Syrnet melk, økologisk, Kefir, Tine",
+    "kjøttbuljong maggi": "Maggi kyllingbuljong",
+    "kokosmelk": "Kokosmelk, mager, hermetisk",
+    "kyllingbuljong": "Maggi kyllingbuljong",
+    "grønnsaker": "Isbergsalat, issalat, norsk, rå",
+    "karbokilde ris pasta potet mais m m": "Pasta, naturell, tørr",
+    "magert kjøtt eller hvit fisk eller mager sjømat": "Torsk, i skiver, rå",
+    "mais": "Mais, hermetisk",
+    "middels store gulrøtter": "Gulrot, norsk, rå",
+    "minimais hermetisk": "Babymais, minimais, hermetisk",
+    "mozzarella": "Mozzarella, i lake, importert",
+    "pasta": "Pasta, naturell, tørr",
+    "pasta fullkorn": "Pasta, naturell, tørr",
+    "paprika": "Paprika, rød, rå",
+    "pastinakk": "Pastinakk, rå",
+    "tomat": "Tomat, norsk, rå",
+    "sjampinjong fersk": "Sjampinjong, champignon, rå",
+    "sitron": "Sitron, rå",
+    "rødbete": "Rødbete, norsk, rå",
+    "eggnudler": "Eggnudler, tørr",
+    "nudler med egg": "Eggnudler, tørr",
+    "pesto grønn": "Pesto, grønn, kjøpt",
+    "storfe": "Storfe, høyrygg, rå"
   },
   "manual": {
     "lett creme fraiche 10%": {
@@ -111,6 +138,26 @@
         "fibre": 0
       }
     },
+    "skyr": {
+      "label": "Skyr",
+      "per100g": {
+        "calories": 62,
+        "protein": 10,
+        "carbs": 5,
+        "fat": 0.2,
+        "fibre": 0
+      }
+    },
+    "mager cottage cheese": {
+      "label": "Mager cottage cheese",
+      "per100g": {
+        "calories": 79,
+        "protein": 13,
+        "carbs": 2.1,
+        "fat": 2,
+        "fibre": 0
+      }
+    },
     "bacon go og magrere gilde": {
       "label": "Bacon, Go og magrere, Gilde",
       "per100g": {
@@ -130,12 +177,130 @@
         "fat": 4.7,
         "fibre": 0
       }
+    },
+    "fiskekaker 80% fisk fiskemannen": {
+      "label": "Fiskekaker 80% fisk, Fiskemannen",
+      "per100g": {
+        "calories": 134,
+        "protein": 14.2,
+        "carbs": 3.2,
+        "fat": 7.2,
+        "fibre": 0
+      }
+    },
+    "fløtesaus på pose toro": {
+      "label": "Fløtesaus på pose, Toro",
+      "per100g": {
+        "calories": 46,
+        "protein": 1.3,
+        "carbs": 4.4,
+        "fat": 2.6,
+        "fibre": 9
+      }
+    },
+    "lett matfløte": {
+      "label": "Lett matfløte",
+      "per100g": {
+        "calories": 119,
+        "protein": 3.1,
+        "carbs": 4.1,
+        "fat": 10,
+        "fibre": 0
+      }
+    },
+    "speltlompe": {
+      "label": "Speltlompe",
+      "per100g": {
+        "calories": 189,
+        "protein": 5,
+        "carbs": 38,
+        "fat": 0.8,
+        "fibre": 0
+      }
+    },
+    "stor tortilla fullkorn": {
+      "label": "Stor tortilla, fullkorn",
+      "per100g": {
+        "calories": 286,
+        "protein": 8.3,
+        "carbs": 46.6,
+        "fat": 6,
+        "fibre": 0
+      }
+    },
+    "oksekraft maggi": {
+      "label": "Oksekraft, Maggi",
+      "per100g": {
+        "calories": 20,
+        "protein": 4,
+        "carbs": 0.6,
+        "fat": 0.1,
+        "fibre": 0.6
+      }
+    },
+    "oyster sauce blue dragon": {
+      "label": "Oyster sauce, Blue Dragon",
+      "per100g": {
+        "calories": 107,
+        "protein": 1.6,
+        "carbs": 24,
+        "fat": 0.5,
+        "fibre": 0
+      }
+    },
+    "salsasaus old el paso": {
+      "label": "Salsasaus, Old El Paso",
+      "per100g": {
+        "calories": 35,
+        "protein": 1.3,
+        "carbs": 5.5,
+        "fat": 0.5,
+        "fibre": 0
+      }
+    },
+    "strøkavring": null,
+    "taco kryddermix old el paso": {
+      "label": "Taco kryddermix, Old El Paso",
+      "per100g": {
+        "calories": 286,
+        "protein": 8.4,
+        "carbs": 38,
+        "fat": 0.8,
+        "fibre": 0
+      }
+    },
+    "vaniljekesam": null,
+    "wasa sport knekkebrød": null,
+    "linsepasta": {
+      "label": "Linsepasta",
+      "per100g": {
+        "calories": 341,
+        "protein": 26,
+        "carbs": 52,
+        "fat": 1.7,
+        "fibre": 6.7
+      }
     }
+  },
+  "sameAsManual": {
+    "kjøttbuljong maggi": "maggi kyllingbuljong",
+    "kyllingbuljong": "maggi kyllingbuljong",
+    "oksekraft jacobs": "oksekraft maggi",
+    "salsasaus": "salsasaus old el paso"
+  },
+  "sameAsAlias": {
+    "pasta": "makaroni",
+    "pasta fullkorn": "makaroni",
+    "karbokilde ris pasta potet mais m m": "makaroni",
+    "pesto grønn": "grønn pesto"
   },
   "skip": [
     "mozzarella smøreost tomat og basilikum kavli",
     "salt",
     "basilikum",
-    "dill"
+    "dill",
+    "sukrin",
+    "sukrin hold",
+    "timian"
   ]
 }

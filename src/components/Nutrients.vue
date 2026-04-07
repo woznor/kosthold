@@ -48,6 +48,24 @@
       </div>
 
       <div v-if="isExpanded" class="audit-inspector">
+        <div class="audit-inspector-note">
+          Diff = beregnet minus lagret. Beregningen bruker gram, ikke antall.
+        </div>
+
+        <div v-if="reasonRows.length" class="audit-reasons">
+          <div class="audit-inspector-head">Hva driver forskjellen?</div>
+          <div class="audit-reason-list">
+            <div
+              v-for="entry in reasonRows"
+              :key="entry.key"
+              :class="['audit-reason', entry.deltaClass]"
+            >
+              <strong>{{ entry.title }}</strong>
+              <small>{{ entry.summary }}</small>
+            </div>
+          </div>
+        </div>
+
         <div class="audit-inspector-head">Ingredienser i beregningen</div>
         <div class="audit-ingredient-list">
           <div
@@ -57,7 +75,7 @@
           >
             <div class="audit-ingredient-main">
               <strong>{{ entry.ingredient }}</strong>
-              <small>{{ entry.grams }} g -> {{ entry.matchedFood }}</small>
+              <small>{{ entry.grams }} g -> {{ entry.matchedFood }} ({{ entry.matchLabel }})</small>
             </div>
             <div class="audit-ingredient-macros">
               <span>{{ entry.contribution.calories }} kcal</span>
@@ -84,6 +102,12 @@ const props = defineProps({
 
 const audit = computed(() => props.item.nutritionAudit)
 const isExpanded = ref(false)
+const labels = {
+  calories: 'kcal',
+  protein: 'protein',
+  carbs: 'karb',
+  fat: 'fett',
+}
 
 function formatDelta(value) {
   const rounded = Math.round((Number(value) || 0) * 10) / 10
@@ -113,7 +137,47 @@ const auditRows = computed(() => {
 
 const ingredientRows = computed(() => {
   if (!audit.value?.fullyVerified) return []
-  return audit.value.matched || []
+  return (audit.value.matched || []).map((entry) => ({
+    ...entry,
+    matchLabel: {
+      manual: 'manuell',
+      alias: 'mapping',
+      exact: 'eksakt',
+      'single-prefix': 'automatisk',
+      'single-partial': 'automatisk',
+    }[entry.matchType] || entry.matchType,
+  }))
+})
+
+const reasonRows = computed(() => {
+  if (!audit.value?.fullyVerified) return []
+
+  return Object.entries(labels)
+    .map(([key, unit]) => {
+      const delta = Number(audit.value.delta?.[key] || 0)
+      if (Math.abs(delta) < 1) return null
+
+      const topDrivers = [...(audit.value.matched || [])]
+        .map((entry) => ({
+          ingredient: entry.ingredient,
+          value: Number(entry.contribution?.[key] || 0),
+        }))
+        .filter((entry) => entry.value > 0)
+        .sort((a, b) => b.value - a.value)
+        .slice(0, 2)
+
+      const driverText = topDrivers.length
+        ? `Størst utslag i beregningen: ${topDrivers.map((entry) => `${entry.ingredient} (${entry.value} ${unit})`).join(', ')}.`
+        : 'Ingen tydelige drivere funnet.'
+
+      return {
+        key,
+        title: `${labels[key]}: ${formatDelta(delta)}`,
+        summary: `${delta > 0 ? 'Beregnet verdi er høyere enn lagret.' : 'Beregnet verdi er lavere enn lagret.'} ${driverText}`,
+        deltaClass: Math.abs(delta) <= 5 ? 'is-close' : 'is-off',
+      }
+    })
+    .filter(Boolean)
 })
 </script>
 
@@ -235,11 +299,51 @@ const ingredientRows = computed(() => {
   border-top: 1px dashed #c6d6c5;
 }
 
+.audit-inspector-note {
+  margin-bottom: 10px;
+  font-size: 11px;
+  color: #5d745d;
+}
+
 .audit-inspector-head {
   font-size: 12px;
   font-weight: 800;
   color: #274c32;
   margin-bottom: 8px;
+}
+
+.audit-reasons {
+  margin-bottom: 12px;
+}
+
+.audit-reason-list {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.audit-reason {
+  display: grid;
+  gap: 4px;
+  padding: 8px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #e1ecdf;
+}
+
+.audit-reason strong {
+  font-size: 12px;
+  color: #1f2a37;
+}
+
+.audit-reason small {
+  font-size: 11px;
+  color: #5d745d;
+}
+
+.audit-reason.is-off {
+  border-color: #f0cf9b;
+  background: #fff8ef;
 }
 
 .audit-ingredient-list {

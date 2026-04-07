@@ -180,6 +180,16 @@ function toggleFavorite(mealId) {
   height: 230px;
 }
 
+.card-image :deep(.v-responsive__content) {
+  height: 100%;
+}
+
+.card-image :deep(img) {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .favorite-btn {
   position: absolute;
   top: 10px;
@@ -289,5 +299,12 @@ function toggleFavorite(mealId) {
     gap: 6px;
   }
 }
-</style>
 
+@media (min-width: 761px) {
+  .card-image {
+    height: 220px;
+    min-height: 220px;
+    max-height: 220px;
+  }
+}
+</style>
