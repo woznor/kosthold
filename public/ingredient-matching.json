@@ -101,8 +101,8 @@
     "hvitost, lett": {
       "label": "Hvitost, lett",
       "per100g": {
-        "calories": 268,
-        "protein": 31,
+        "calories": 260,
+        "protein": 29,
         "carbs": 0,
         "fat": 16,
         "fibre": 0
@@ -211,10 +211,10 @@
     "speltlompe": {
       "label": "Speltlompe",
       "per100g": {
-        "calories": 189,
-        "protein": 5,
-        "carbs": 38,
-        "fat": 0.8,
+        "calories": 175,
+        "protein": 5.5,
+        "carbs": 36.6,
+        "fat": 0.7,
         "fibre": 0
       }
     },
