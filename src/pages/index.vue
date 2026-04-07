@@ -37,7 +37,7 @@
 
     <v-tabs v-model="tab" class="tabs" color="var(--app-primary)">
       <v-tab>Måltider</v-tab>
-      <v-tab>Kommende 2 uker</v-tab>
+      <v-tab>Planlegg</v-tab>
     </v-tabs>
 
     <section class="content">

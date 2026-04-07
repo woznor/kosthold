@@ -1,5 +1,6 @@
 // Utilities
 import { defineStore } from 'pinia'
+import { buildNutritionAuditReport } from '../services/nutritionAudit'
 
 function round2(value) {
   return Math.round((Number(value) || 0) * 100) / 100
@@ -141,6 +142,7 @@ export const useAppStore = defineStore('app', {
     exercises: null,
     ingredients: [],
     ingredientUnits: [],
+    nutritionAuditByMealId: {},
     mealPlan: {},
     hiddenShoppingItems: {},
     favoriteMealIds: [],
@@ -272,6 +274,12 @@ export const useAppStore = defineStore('app', {
       return Array.from(aggregateMap.values())
         .filter((item) => !state.hiddenShoppingItems[item.key])
         .sort((a, b) => a.text.localeCompare(b.text, 'nb'))
+    },
+
+    fullyVerifiedMealIds(state) {
+      return Object.values(state.nutritionAuditByMealId)
+        .filter((audit) => audit?.fullyVerified)
+        .map((audit) => audit.id)
     },
   },
 
@@ -465,9 +473,39 @@ export const useAppStore = defineStore('app', {
     },
 
     updateRenderedMeals() {
-      this.meals = this.baseMeals.map((meal) =>
-        scaledMeal(meal, meal.portions, this.mealTypeMap)
-      )
+      this.meals = this.baseMeals.map((meal) => ({
+        ...scaledMeal(meal, meal.portions, this.mealTypeMap),
+        nutritionAudit: this.nutritionAuditByMealId[meal.id] || null,
+      }))
+    },
+
+    async loadNutritionAudit() {
+      try {
+        const [matchingResponse, foodsResponse] = await Promise.all([
+          fetch(`${import.meta.env.BASE_URL}ingredient-matching.json`),
+          fetch(`${import.meta.env.BASE_URL}matvaretabellen.json`),
+        ])
+
+        if (!matchingResponse.ok) {
+          throw new Error(`Failed to load ingredient-matching.json (${matchingResponse.status})`)
+        }
+
+        if (!foodsResponse.ok) {
+          throw new Error(`Failed to load matvaretabellen.json (${foodsResponse.status})`)
+        }
+
+        const matching = await matchingResponse.json()
+        const foodsPayload = await foodsResponse.json()
+        const foods = Array.isArray(foodsPayload.foods) ? foodsPayload.foods : []
+        const report = buildNutritionAuditReport(this.baseMeals, foods, matching)
+
+        this.nutritionAuditByMealId = Object.fromEntries(
+          report.mealResults.map((meal) => [meal.id, meal]),
+        )
+      } catch (error) {
+        console.error('Error loading nutrition audit:', error)
+        this.nutritionAuditByMealId = {}
+      }
     },
 
     async loadMealsFromFile() {
@@ -481,7 +519,7 @@ export const useAppStore = defineStore('app', {
       this.recalculateMetadata()
     },
 
-    saveMeal(item) {
+    async saveMeal(item) {
       const currentMaxId = this.baseMeals.reduce((maxId, meal) => {
         return Math.max(maxId, Number(meal.id) || 0)
       }, 0)
@@ -509,6 +547,7 @@ export const useAppStore = defineStore('app', {
 
       this.baseMeals.push(nextMeal)
       this.recalculateMetadata()
+      await this.loadNutritionAudit()
       this.updateRenderedMeals()
       this.addMealDialog = false
     },
@@ -518,6 +557,7 @@ export const useAppStore = defineStore('app', {
         if (!this.baseMeals.length) {
           await this.loadMealsFromFile()
         }
+        await this.loadNutritionAudit()
         this.updateRenderedMeals()
       } catch (error) {
         console.error('Error fetching meals:', error)
@@ -533,7 +573,7 @@ export const useAppStore = defineStore('app', {
       }
     },
 
-    deleteMeal(id) {
+    async deleteMeal(id) {
       this.baseMeals = this.baseMeals.filter((meal) => meal.id !== id)
       this.favoriteMealIds = this.favoriteMealIds.filter((mealId) => mealId !== id)
       this.persistFavorites()
@@ -548,6 +588,7 @@ export const useAppStore = defineStore('app', {
       this.mealPlan = updatedPlan
       this.persistMealPlan()
       this.recalculateMetadata()
+      await this.loadNutritionAudit()
       this.updateRenderedMeals()
     },
 

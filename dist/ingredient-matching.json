@@ -1,0 +1,141 @@
+{
+  "aliases": {
+    "karbonadedeig": "Karbonadedeig, storfe, 4,5 % fett, rå",
+    "kyllingfilet": "Kylling, filet, uten skinn, rå",
+    "hvitost": "Norvegia, gulost",
+    "mager kesam": "Kvarg, 1 % fett, Kesam",
+    "sjalottløk": "Sjalottløk, rå",
+    "cherrytomat": "Cherrytomat, importert, rå",
+    "storfe indrefilet": "Storfe, indrefilet, rå",
+    "storfe høyrygg": "Storfe, høyrygg, rå",
+    "bladsalat": "Bladsalat, norsk, rå",
+    "kokosmelk lett": "Kokosmelk, mager, hermetisk",
+    "salami gilde go og mager": "Salami, mager",
+    "magert kjøttpålegg": "Salami, mager",
+    "mager cottage cheese": "Cottage cheese",
+    "grovt brød": "Brød, grovt (50-75 %), kjøpt, kneipp",
+    "hakket tomat hermetisk": "Tomat, hermetisk",
+    "ingefærrot": "Ingefærrot, rå",
+    "paprika rød": "Paprika, rød, rå",
+    "chili rød": "Chili, rød, rå",
+    "gulrot": "Gulrot, norsk, rå",
+    "hvitløk": "Hvitløk, rå",
+    "ris": "Ris, polert, jasminris, tørr",
+    "sjampinjong": "Sjampinjong, champignon, rå",
+    "sjampinjong rå": "Sjampinjong, champignon, rå",
+    "løk": "Løk, gul, norsk, rå",
+    "middels store poteter": "Potet, tidligpotet, kokt, saltet vann",
+    "middels stor potet": "Potet, tidligpotet, kokt, saltet vann",
+    "egg": "Egg, rå",
+    "lettmelk": "Lettmelk, 1,0 % fett, Tine",
+    "lettmelk 0 5": "Lettmelk, 1,0 % fett, Tine",
+    "lettmelk 1 0": "Lettmelk, 1,0 % fett, Tine",
+    "skyr": "Skyr, bringebær",
+    "potetmel": "Potetmel, potetstivelse",
+    "sukkererter": "Sukkererter, norsk, rå",
+    "spekeskinke grilstad lev litt lettere": "Spekeskinke",
+    "spekeskinke strandaskinke grilstad": "Spekeskinke",
+    "tacosaus medium old el paso": "Tacosaus",
+    "hvetemel": "Hvetemel, siktet",
+    "makaroni": "Pasta, naturell, tørr",
+    "philadelphia light kremost": "Kremost, lett, Philadelphia",
+    "storfe ytrefilet": "Storfe, ytrefilet, rå",
+    "torsk": "Torsk, i skiver, rå",
+    "lettmelk 1 0%": "Lettmelk, 1,0 % fett, Tine",
+    "blomkål": "Blomkål, kokt",
+    "brokkoli": "Brokkoli, kokt",
+    "søtpotet": "Søtpotet, ovnsstekt",
+    "gresk yoghurt": "Yoghurt, naturell, 2 % fett, gresk/tyrkisk",
+    "rosenkål": "Rosenkål, kokt",
+    "fetaost": "Feta, ost med geitmelk",
+    "lasagneplater": "Pasta, naturell, tørr"
+  },
+  "manual": {
+    "lett creme fraiche 10%": {
+      "label": "Lett creme fraiche 17%",
+      "per100g": {
+        "calories": 192,
+        "protein": 2.8,
+        "carbs": 4.6,
+        "fat": 17,
+        "fibre": 0
+      }
+    },
+    "maggi kyllingbuljong": {
+      "label": "Maggi kyllingbuljong",
+      "per100g": {
+        "calories": 5,
+        "protein": 0.5,
+        "carbs": 0.8,
+        "fat": 0.5,
+        "fibre": 0.5
+      }
+    },
+    "hvitost, lett": {
+      "label": "Hvitost, lett",
+      "per100g": {
+        "calories": 268,
+        "protein": 31,
+        "carbs": 0,
+        "fat": 16,
+        "fibre": 0
+      }
+    },
+    "hvitost lett 16% fett": {
+      "label": "Hvitost, lett 16% fett",
+      "per100g": {
+        "calories": 268,
+        "protein": 31,
+        "carbs": 0,
+        "fat": 16,
+        "fibre": 0
+      }
+    },
+    "bernaisesaus pulver, lett, toro": {
+      "label": "Bernaisesaus pulver, lett, Toro",
+      "per100g": {
+        "calories": 48,
+        "protein": 1.2,
+        "carbs": 7.1,
+        "fat": 1.6,
+        "fibre": 0.2
+      }
+    },
+    "proteinpulver": {
+      "label": "Proteinpulver",
+      "per100g": {
+        "calories": 394,
+        "protein": 76,
+        "carbs": 8.5,
+        "fat": 6.3,
+        "fibre": 0
+      }
+    },
+    "bacon go og magrere gilde": {
+      "label": "Bacon, Go og magrere, Gilde",
+      "per100g": {
+        "calories": 162,
+        "protein": 18,
+        "carbs": 4.4,
+        "fat": 8.1,
+        "fibre": 0
+      }
+    },
+    "grove hamburgerbrød reale": {
+      "label": "Grove hamburgerbrød, Reale",
+      "per100g": {
+        "calories": 270,
+        "protein": 9.1,
+        "carbs": 44.1,
+        "fat": 4.7,
+        "fibre": 0
+      }
+    }
+  },
+  "skip": [
+    "mozzarella smøreost tomat og basilikum kavli",
+    "salt",
+    "basilikum",
+    "dill"
+  ]
+}

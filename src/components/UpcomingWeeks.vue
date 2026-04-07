@@ -2,7 +2,7 @@
   <div class="planner-layout">
     <v-card class="shopping-card" elevation="0">
       <v-card-item>
-        <v-card-title class="shopping-title">Handleliste (kommende 2 uker)</v-card-title>
+        <v-card-title class="shopping-title">Handleliste</v-card-title>
         <template #append>
           <div class="shopping-actions">
             <v-select
@@ -57,7 +57,7 @@
     </v-card>
 
     <div class="planner-header">
-      <h3>Kommende 2 uker</h3>
+      <h3>Planlegg</h3>
       <v-btn
         size="small"
         color="var(--app-primary)"
