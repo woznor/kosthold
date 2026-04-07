@@ -2,7 +2,7 @@
   <div class="page-wrap">
     <header class="hero">
       <div>
-        <h1 class="hero-kicker">Oppskrifter</h1>
+        <h1 class="hero-kicker">Kamillas Kjøkken😎</h1>
       </div>
 
       <div class="hero-controls">
