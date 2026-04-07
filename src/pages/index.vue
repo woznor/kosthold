@@ -2,7 +2,8 @@
   <div class="page-wrap">
     <header class="hero">
       <div>
-        <h1 class="hero-kicker">Kamillas Kjøkken😎</h1>
+        <h1 class="hero-kicker">Kamillas fit kjøkken😎</h1>
+        <h5>Der kalorier er i fokus😗</h5>
       </div>
 
       <div class="hero-controls">
