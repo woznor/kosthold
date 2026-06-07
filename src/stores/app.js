@@ -1,5 +1,12 @@
 // Utilities
 import { defineStore } from 'pinia'
+import { isFirebaseConfigured } from '../services/firebase'
+import {
+  deleteMealFromFirestore,
+  fetchIngredientMatchingFromFirestore,
+  fetchMealsFromFirestore,
+  saveMealToFirestore,
+} from '../services/firestoreData'
 import { buildNutritionAuditReport } from '../services/nutritionAudit'
 
 function round2(value) {
@@ -481,20 +488,24 @@ export const useAppStore = defineStore('app', {
 
     async loadNutritionAudit() {
       try {
-        const [matchingResponse, foodsResponse] = await Promise.all([
-          fetch(`${import.meta.env.BASE_URL}ingredient-matching.json`),
+        const [firestoreMatching, foodsResponse] = await Promise.all([
+          fetchIngredientMatchingFromFirestore().catch(() => null),
           fetch(`${import.meta.env.BASE_URL}matvaretabellen.json`),
         ])
-
-        if (!matchingResponse.ok) {
-          throw new Error(`Failed to load ingredient-matching.json (${matchingResponse.status})`)
-        }
 
         if (!foodsResponse.ok) {
           throw new Error(`Failed to load matvaretabellen.json (${foodsResponse.status})`)
         }
 
-        const matching = await matchingResponse.json()
+        let matching = firestoreMatching
+        if (!matching) {
+          const matchingResponse = await fetch(`${import.meta.env.BASE_URL}ingredient-matching.json`)
+          if (!matchingResponse.ok) {
+            throw new Error(`Failed to load ingredient-matching.json (${matchingResponse.status})`)
+          }
+          matching = await matchingResponse.json()
+        }
+
         const foodsPayload = await foodsResponse.json()
         const foods = Array.isArray(foodsPayload.foods) ? foodsPayload.foods : []
         const report = buildNutritionAuditReport(this.baseMeals, foods, matching)
@@ -509,6 +520,13 @@ export const useAppStore = defineStore('app', {
     },
 
     async loadMealsFromFile() {
+      const firestoreMeals = await fetchMealsFromFirestore().catch(() => null)
+      if (Array.isArray(firestoreMeals) && firestoreMeals.length) {
+        this.baseMeals = firestoreMeals
+        this.recalculateMetadata()
+        return
+      }
+
       const response = await fetch(`${import.meta.env.BASE_URL}meals.json`)
       if (!response.ok) {
         throw new Error(`Failed to load meals.json (${response.status})`)
@@ -545,6 +563,10 @@ export const useAppStore = defineStore('app', {
         date_time: item.date_time || new Date().toISOString(),
       }
 
+      if (isFirebaseConfigured) {
+        await saveMealToFirestore(nextMeal)
+      }
+
       this.baseMeals.push(nextMeal)
       this.recalculateMetadata()
       await this.loadNutritionAudit()
@@ -574,6 +596,10 @@ export const useAppStore = defineStore('app', {
     },
 
     async deleteMeal(id) {
+      if (isFirebaseConfigured) {
+        await deleteMealFromFirestore(id)
+      }
+
       this.baseMeals = this.baseMeals.filter((meal) => meal.id !== id)
       this.favoriteMealIds = this.favoriteMealIds.filter((mealId) => mealId !== id)
       this.persistFavorites()

@@ -1,0 +1,55 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null && request.auth.token.email != null;
+    }
+
+    function userEmail() {
+      return request.auth.token.email;
+    }
+
+    function isAllowlisted() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/allowlist/$(userEmail()));
+    }
+
+    function isAdmin() {
+      return signedIn()
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    match /allowlist/{email} {
+      allow get: if signedIn() && (email == userEmail() || isAdmin());
+      allow list, create, update, delete: if isAdmin();
+    }
+
+    match /users/{userId} {
+      allow get: if signedIn() && (userId == request.auth.uid || isAdmin());
+      allow list, create, update, delete: if isAdmin();
+    }
+
+    match /meals/{mealId} {
+      allow read: if isAllowlisted();
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /appData/{docId} {
+      allow read: if isAllowlisted();
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /mealPlans/{userId} {
+      allow read, write: if signedIn() && userId == request.auth.uid && isAllowlisted();
+
+      match /dates/{dateId} {
+        allow read, write: if signedIn() && userId == request.auth.uid && isAllowlisted();
+      }
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

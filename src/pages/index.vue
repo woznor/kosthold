@@ -39,22 +39,27 @@
     <v-tabs v-model="tab" class="tabs" color="var(--app-primary)">
       <v-tab>Måltider</v-tab>
       <v-tab>Planlegg</v-tab>
+      <v-tab v-if="authStore.isAdmin">Admin</v-tab>
     </v-tabs>
 
     <section class="content">
       <MealCard v-if="tab === 0" />
-      <UpcomingWeeks v-else />
+      <UpcomingWeeks v-else-if="tab === 1" />
+      <AdminPanel v-else-if="authStore.isAdmin" />
     </section>
   </div>
 </template>
 
 <script setup>
 import { onMounted, ref, watch } from 'vue'
+import AdminPanel from '@/components/AdminPanel.vue'
 import MealCard from '@/components/MealCard.vue'
 import UpcomingWeeks from '@/components/UpcomingWeeks.vue'
+import { useAuthStore } from '../stores/auth'
 import { useAppStore } from '../stores/app'
 
 const store = useAppStore()
+const authStore = useAuthStore()
 const tab = ref(0)
 const isDark = ref(false)
 
@@ -68,8 +73,7 @@ function toggleTheme() {
 }
 
 function logout() {
-  localStorage.removeItem('auth_ok')
-  window.location.reload()
+  authStore.logout()
 }
 
 onMounted(() => {

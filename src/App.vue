@@ -1,21 +1,47 @@
 <template>
   <v-app class="app-shell">
-    <div v-if="!isAuthenticated" class="auth-wrap">
+    <div v-if="!authStore.initialized || authStore.loading" class="auth-wrap">
       <v-card class="auth-card" elevation="0">
-        <v-card-title class="auth-title">Låst side</v-card-title>
+        <v-card-title class="auth-title">Laster</v-card-title>
         <v-card-text>
-          <p class="auth-copy">Skriv inn passord for å åpne planen.</p>
+          <v-progress-linear color="var(--app-primary)" indeterminate />
+        </v-card-text>
+      </v-card>
+    </div>
+
+    <div v-else-if="!authStore.isAuthenticated" class="auth-wrap">
+      <v-card class="auth-card" elevation="0">
+        <v-card-title class="auth-title">Logg inn</v-card-title>
+        <v-card-text>
+          <p class="auth-copy">Skriv inn whitelisted e-post og passord.</p>
+          <v-text-field
+            v-model="emailInput"
+            label="E-post"
+            type="email"
+            variant="outlined"
+            density="comfortable"
+            :error="Boolean(authStore.error)"
+            :error-messages="authStore.error ? [authStore.error] : []"
+            @keyup.enter="submitAuth"
+          />
           <v-text-field
             v-model="passwordInput"
             label="Passord"
             type="password"
             variant="outlined"
             density="comfortable"
-            :error="hasError"
-            :error-messages="hasError ? ['Feil passord'] : []"
-            @keyup.enter="login"
+            :error="Boolean(authStore.error)"
+            @keyup.enter="submitAuth"
           />
-          <v-btn color="var(--app-primary)" variant="flat" block @click="login">Logg inn</v-btn>
+          <v-btn
+            color="var(--app-primary)"
+            variant="flat"
+            block
+            :loading="authStore.loading"
+            @click="submitAuth"
+          >
+            Logg inn
+          </v-btn>
         </v-card-text>
       </v-card>
     </div>
@@ -26,35 +52,18 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
+import { useAuthStore } from './stores/auth'
 
-const AUTH_KEY = 'auth_ok'
-const PASSWORD_HASH = 'dfdae38fd30310922474a025dab9e5247fc9f2714dd1b848b53c871b90a31a5b'
-
-const isAuthenticated = ref(false)
+const authStore = useAuthStore()
+const emailInput = ref('')
 const passwordInput = ref('')
-const hasError = ref(false)
 
-async function sha256Hex(value) {
-  const data = new TextEncoder().encode(value)
-  const hash = await crypto.subtle.digest('SHA-256', data)
-  return Array.from(new Uint8Array(hash))
-    .map((b) => b.toString(16).padStart(2, '0'))
-    .join('')
-}
-
-async function login() {
-  const inputHash = await sha256Hex(passwordInput.value)
-  if (inputHash === PASSWORD_HASH) {
-    isAuthenticated.value = true
-    hasError.value = false
-    localStorage.setItem(AUTH_KEY, '1')
-  } else {
-    hasError.value = true
-  }
+async function submitAuth() {
+  await authStore.login(emailInput.value, passwordInput.value)
 }
 
 onMounted(() => {
-  isAuthenticated.value = localStorage.getItem(AUTH_KEY) === '1'
+  authStore.initializeAuth()
 })
 </script>
 
