@@ -1,32 +1,27 @@
-﻿<template>
+<template>
   <div class="page-wrap">
     <header class="hero">
-      <div>
-        <h1 class="hero-kicker">Kamillas fit kjøkken😎</h1>
-        <h5>Der kalorier er i fokus😗</h5>
+      <div class="hero-copy">
+        <p class="hero-kicker">Kamillas fit kjokken</p>
+        <h1>Kamillas fit kjokken</h1>
+        <p class="hero-lead">Der kalorier er i fokus</p>
       </div>
 
       <div class="hero-controls">
-        <p class="hero-meta">Viser {{ store.filteredMeals.length }} måltider</p>
-        <!-- <v-btn
-          :icon="store.compactMobile ? 'mdi-cellphone-remove' : 'mdi-cellphone-text'"
-          size="small"
-          variant="tonal"
-          class="theme-btn"
-          @click="store.setCompactMobile(!store.compactMobile)"
-        >
-          Kompakt mobil
-        </v-btn> -->
+        <div class="hero-stat">
+          <strong>{{ store.filteredMeals.length }}</strong>
+          <span>viser maaltider</span>
+        </div>
         <v-btn
           :icon="isDark ? 'mdi-weather-night' : 'mdi-white-balance-sunny'"
-          size="small"
-          variant="tonal"
+          size="default"
+          variant="flat"
           class="theme-btn"
           @click="toggleTheme"
         />
         <v-btn
-          size="small"
-          variant="tonal"
+          size="default"
+          variant="flat"
           class="theme-btn"
           prepend-icon="mdi-logout"
           @click="logout"
@@ -79,8 +74,7 @@ function logout() {
 onMounted(() => {
   store.fetchMeals()
   store.loadMealPlan()
-  store.loadHiddenShoppingItems()
-  store.loadFavorites()
+  store.loadUserPlannerState()
   store.loadUiPreferences()
   store.fetchIngredients()
   store.fetchIngredientUnits()
@@ -95,83 +89,160 @@ watch(isDark, applyTheme)
 
 <style scoped>
 .page-wrap {
-  max-width: 1280px;
+  max-width: 1360px;
   margin: 0 auto;
-  padding: 24px 16px 84px;
+  padding: 28px 18px 96px;
 }
 
 .hero {
-  background: linear-gradient(120deg, #003845 0%, #005f73 100%);
-  color: #fdf8ef;
-  border-radius: 20px;
-  padding: 20px;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at top left, rgba(255, 206, 145, 0.22) 0, transparent 26%),
+    linear-gradient(135deg, #113f43 0%, #155e63 52%, #c55f35 120%);
+  color: #fff8f0;
+  border-radius: calc(var(--app-radius-xl) + 2px);
+  padding: 28px;
   display: flex;
   justify-content: space-between;
-  align-items: end;
-  gap: 16px;
-  box-shadow: 0 20px 36px rgba(0, 44, 53, 0.25);
+  align-items: stretch;
+  gap: 24px;
+  box-shadow: var(--app-shadow-strong);
+}
+
+.hero::before,
+.hero::after {
+  content: '';
+  position: absolute;
+  border-radius: 999px;
+  pointer-events: none;
+}
+
+.hero::before {
+  width: 240px;
+  height: 240px;
+  right: -40px;
+  top: -70px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.hero::after {
+  width: 180px;
+  height: 180px;
+  right: 160px;
+  bottom: -90px;
+  background: rgba(255, 214, 176, 0.13);
+}
+
+.hero-copy,
+.hero-controls {
+  position: relative;
+  z-index: 1;
 }
 
 .hero-kicker {
-  margin: 0 0 6px;
-  font-size: 12px;
+  margin: 0 0 10px;
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  opacity: 0.8;
+  opacity: 0.72;
 }
 
 .hero h1 {
   margin: 0;
-  font-size: clamp(1.2rem, 2vw, 1.9rem);
-  line-height: 1.2;
+  max-width: 12ch;
+  font-family: var(--app-display);
+  font-size: clamp(2.3rem, 5vw, 4.4rem);
+  line-height: 0.98;
+}
+
+.hero-lead {
+  max-width: 62ch;
+  margin: 14px 0 0;
+  color: rgba(255, 248, 240, 0.82);
+  font-size: 1.02rem;
+  line-height: 1.7;
 }
 
 .hero-controls {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  min-width: 220px;
+  display: grid;
+  align-content: space-between;
+  justify-items: end;
+  gap: 10px;
 }
 
-.hero-meta {
-  margin: 0;
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.15);
-  font-size: 12px;
-  font-weight: 700;
-  white-space: nowrap;
+.hero-stat {
+  width: min(210px, 100%);
+  padding: 16px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(10px);
+  display: grid;
+  gap: 4px;
+  text-align: left;
+}
+
+.hero-stat strong {
+  font-family: var(--app-display);
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+.hero-stat span {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 11px;
+  opacity: 0.78;
 }
 
 .theme-btn {
-  color: #fdf8ef;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  min-width: 148px;
+  justify-self: stretch;
+  color: #fff8f0;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(9, 22, 25, 0.16);
+  backdrop-filter: blur(8px);
 }
 
 .tabs {
-  margin-top: 14px;
-  background: color-mix(in srgb, var(--app-card) 85%, transparent);
+  position: sticky;
+  top: 10px;
+  z-index: 8;
+  margin-top: 18px;
+  background: color-mix(in srgb, var(--app-card) 76%, transparent);
   border: 1px solid var(--app-border);
-  border-radius: 14px;
-  padding: 4px;
+  border-radius: 999px;
+  padding: 6px;
+  backdrop-filter: blur(18px);
+  box-shadow: var(--app-shadow);
 }
 
 .content {
-  margin-top: 18px;
+  margin-top: 22px;
 }
 
 @media (max-width: 760px) {
   .hero {
     flex-direction: column;
     align-items: flex-start;
+    padding: 22px;
   }
 
   .hero-controls {
-    align-self: stretch;
-    justify-content: space-between;
     width: 100%;
-    flex-wrap: wrap;
+    justify-items: stretch;
+  }
+
+  .hero h1 {
+    max-width: 12ch;
+  }
+
+  .theme-btn,
+  .hero-stat {
+    width: 100%;
   }
 }
 </style>
-

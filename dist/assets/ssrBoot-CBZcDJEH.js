@@ -1,1 +1,0 @@
-import{ad as a,x as r,a7 as u,bs as i}from"./index-BE_2460A.js";const d=(o,t)=>{const s=o.__vccOpts||o;for(const[e,n]of t)s[e]=n;return s};function l(){const o=a(!1);return r(()=>{window.requestAnimationFrame(()=>{o.value=!0})}),{ssrBootStyles:u(()=>o.value?void 0:{transition:"none !important"}),isBooted:i(o)}}export{d as _,l as u};

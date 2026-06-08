@@ -3,40 +3,41 @@
     <div class="nutrients">
       <span class="nutrient">
         <v-icon icon="mdi-fire" color="#ba3d25" size="small" />
-        <strong>{{ item.nutrients.calories }}</strong>
+        <strong>{{ displayNutrients.calories }}</strong>
         <small>kcal</small>
       </span>
       <span class="nutrient">
         <v-icon icon="mdi-food-steak" color="#8a5a2b" size="small" />
-        <strong>{{ item.nutrients.protein }}</strong>
+        <strong>{{ displayNutrients.protein }}</strong>
         <small>protein</small>
       </span>
       <span class="nutrient">
         <v-icon icon="mdi-bread-slice-outline" color="#9a6f22" size="small" />
-        <strong>{{ item.nutrients.carbs }}</strong>
+        <strong>{{ displayNutrients.carbs }}</strong>
         <small>karb</small>
       </span>
       <span class="nutrient">
         <v-icon icon="mdi-water" color="#2f6fb1" size="small" />
-        <strong>{{ item.nutrients.fat }}</strong>
+        <strong>{{ displayNutrients.fat }}</strong>
         <small>fett</small>
       </span>
     </div>
 
-    <button
-      v-if="audit?.fullyVerified"
-      class="audit-panel"
-      type="button"
-      @click="isExpanded = !isExpanded"
-    >
+    <button v-if="audit && !item.verified" :class="['audit-panel', panelClass]" type="button" @click="isExpanded = !isExpanded">
       <div class="audit-head">
         <span>Beregnet mot Matvaretabellen</span>
-        <small>Vises bare for fullt verifiserte måltider</small>
+        <small>{{ auditSummary }}</small>
         <v-icon
           :icon="isExpanded ? 'mdi-chevron-up' : 'mdi-chevron-down'"
           size="small"
-          color="#274c32"
+          :color="iconColor"
         />
+      </div>
+
+      <div v-if="statusPills.length" class="audit-pills">
+        <span v-for="pill in statusPills" :key="pill.text" :class="['audit-pill', pill.className]">
+          {{ pill.text }}
+        </span>
       </div>
 
       <div class="audit-grid">
@@ -50,6 +51,30 @@
       <div v-if="isExpanded" class="audit-inspector">
         <div class="audit-inspector-note">
           Diff = beregnet minus lagret. Beregningen bruker gram, ikke antall.
+        </div>
+
+        <div v-if="unmatchedRows.length" class="audit-warning-list">
+          <div class="audit-inspector-head">Trenger mapping</div>
+          <div class="audit-reason-list">
+            <div v-for="entry in unmatchedRows" :key="entry" class="audit-reason is-warning">
+              <strong>{{ entry }}</strong>
+              <small>Fant ingen sikker næringskilde for denne ingrediensen ennå.</small>
+            </div>
+          </div>
+        </div>
+
+        <div v-if="warningRows.length" class="audit-warning-list">
+          <div class="audit-inspector-head">Bør sjekkes</div>
+          <div class="audit-reason-list">
+            <div
+              v-for="entry in warningRows"
+              :key="entry.key"
+              class="audit-reason is-warning"
+            >
+              <strong>{{ entry.title }}</strong>
+              <small>{{ entry.summary }}</small>
+            </div>
+          </div>
         </div>
 
         <div v-if="reasonRows.length" class="audit-reasons">
@@ -102,12 +127,30 @@ const props = defineProps({
 
 const audit = computed(() => props.item.nutritionAudit)
 const isExpanded = ref(false)
+const displayNutrients = computed(() => {
+  if (props.item.verified && audit.value?.calculated) {
+    return audit.value.calculated
+  }
+
+  return props.item.nutrients || {
+    calories: 0,
+    protein: 0,
+    carbs: 0,
+    fat: 0,
+  }
+})
 const labels = {
   calories: 'kcal',
   protein: 'protein',
   carbs: 'karb',
   fat: 'fett',
 }
+const rowThresholds = computed(() => audit.value?.thresholds || {
+  calories: 60,
+  protein: 7,
+  carbs: 7,
+  fat: 6,
+})
 
 function formatDelta(value) {
   const rounded = Math.round((Number(value) || 0) * 10) / 10
@@ -116,7 +159,7 @@ function formatDelta(value) {
 }
 
 const auditRows = computed(() => {
-  if (!audit.value?.fullyVerified) return []
+  if (!audit.value) return []
 
   return [
     { key: 'calories', label: 'Kcal' },
@@ -130,16 +173,29 @@ const auditRows = computed(() => {
       calculated: audit.value.calculated?.[row.key] ?? 0,
       saved: audit.value.saved?.[row.key] ?? 0,
       deltaText: `${formatDelta(delta)} diff`,
-      deltaClass: Math.abs(delta) <= 5 ? 'is-close' : 'is-off',
+      deltaClass: Math.abs(delta) <= rowThresholds.value[row.key] ? 'is-close' : 'is-off',
     }
   })
 })
 
+const unmatchedRows = computed(() => audit.value?.unmatched || [])
+
+const warningRows = computed(() => {
+  if (!audit.value?.mismatchKeys?.length) return []
+
+  return audit.value.mismatchKeys.map((key) => ({
+    key,
+    title: `${labels[key]} utenfor grense`,
+    summary: `Diffen er ${formatDelta(audit.value.delta?.[key] || 0)} ${labels[key]}. Dette er større enn toleransen for automatisk godkjenning.`,
+  }))
+})
+
 const ingredientRows = computed(() => {
-  if (!audit.value?.fullyVerified) return []
+  if (!audit.value) return []
   return (audit.value.matched || []).map((entry) => ({
     ...entry,
     matchLabel: {
+      selected: 'valgt',
       manual: 'manuell',
       alias: 'mapping',
       exact: 'eksakt',
@@ -150,7 +206,7 @@ const ingredientRows = computed(() => {
 })
 
 const reasonRows = computed(() => {
-  if (!audit.value?.fullyVerified) return []
+  if (!audit.value) return []
 
   return Object.entries(labels)
     .map(([key, unit]) => {
@@ -174,10 +230,67 @@ const reasonRows = computed(() => {
         key,
         title: `${labels[key]}: ${formatDelta(delta)}`,
         summary: `${delta > 0 ? 'Beregnet verdi er høyere enn lagret.' : 'Beregnet verdi er lavere enn lagret.'} ${driverText}`,
-        deltaClass: Math.abs(delta) <= 5 ? 'is-close' : 'is-off',
+        deltaClass: Math.abs(delta) <= rowThresholds.value[key] ? 'is-close' : 'is-off',
       }
     })
     .filter(Boolean)
+})
+
+const panelClass = computed(() => {
+  if (!audit.value) return ''
+  if (!audit.value.fullyMatched) return 'is-warning-panel'
+  if (audit.value.deviationLevel === 'small') return 'is-small-panel'
+  if (audit.value.deviationLevel === 'medium') return 'is-medium-panel'
+  if (audit.value.deviationLevel === 'large') return 'is-large-panel'
+  return 'is-good-panel'
+})
+
+const iconColor = computed(() => {
+  if (!audit.value) return '#274c32'
+  if (!audit.value.fullyMatched) return '#9a6700'
+  if (audit.value.deviationLevel === 'small') return '#906000'
+  if (audit.value.deviationLevel === 'medium') return '#b46b1f'
+  if (audit.value.deviationLevel === 'large') return '#ba3d25'
+  return '#274c32'
+})
+
+const auditSummary = computed(() => {
+  if (!audit.value) return ''
+  if (!audit.value.fullyMatched) return 'Noen ingredienser mangler trygg mapping'
+  if (audit.value.deviationLevel === 'small') return 'Alle ingredienser er matchet med lite avvik'
+  if (audit.value.deviationLevel === 'medium') return 'Alle ingredienser er matchet med noe avvik'
+  if (audit.value.deviationLevel === 'large') return 'Alle ingredienser er matchet, men har store avvik'
+  return 'Alle ingredienser er matchet og verdiene ligger innenfor grensen'
+})
+
+const statusPills = computed(() => {
+  if (!audit.value) return []
+
+  const deviationPill = audit.value.isCloseToSaved
+    ? {
+        text: 'Nær lagrede verdier',
+        className: 'is-good',
+      }
+    : {
+        text: {
+          small: 'Lite avvik',
+          medium: 'Noe avvik',
+          large: 'Store avvik',
+        }[audit.value.deviationLevel] || 'Store avvik',
+        className: {
+          small: 'is-small',
+          medium: 'is-medium',
+          large: 'is-off',
+        }[audit.value.deviationLevel] || 'is-off',
+      }
+
+  return [
+    {
+      text: audit.value.fullyMatched ? 'Fullt matchet' : 'Manglende mapping',
+      className: audit.value.fullyMatched ? 'is-good' : 'is-warning',
+    },
+    deviationPill,
+  ]
 })
 </script>
 
@@ -229,6 +342,26 @@ const reasonRows = computed(() => {
   cursor: pointer;
 }
 
+.audit-panel.is-small-panel {
+  border-color: #ead8a5;
+  background: #fffaf0;
+}
+
+.audit-panel.is-medium-panel {
+  border-color: #efc595;
+  background: #fff6ee;
+}
+
+.audit-panel.is-large-panel {
+  border-color: #f0c7b7;
+  background: #fff7f2;
+}
+
+.audit-panel.is-warning-panel {
+  border-color: #efd8a6;
+  background: #fff9ed;
+}
+
 .audit-head {
   display: flex;
   justify-content: space-between;
@@ -251,6 +384,48 @@ const reasonRows = computed(() => {
 
 .audit-head :deep(.v-icon) {
   margin-left: auto;
+}
+
+.audit-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.audit-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.audit-pill.is-good {
+  background: #e1f2e2;
+  color: #24522f;
+}
+
+.audit-pill.is-warning {
+  background: #f8e8bb;
+  color: #815600;
+}
+
+.audit-pill.is-small {
+  background: #f5edcf;
+  color: #7d6511;
+}
+
+.audit-pill.is-medium {
+  background: #f6dfca;
+  color: #9b5c16;
+}
+
+.audit-pill.is-off {
+  background: #f8ddd5;
+  color: #8c3425;
 }
 
 .audit-grid {

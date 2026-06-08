@@ -29,6 +29,9 @@
 
         <v-card-item>
           <v-card-title class="title">{{ item.name }}</v-card-title>
+          <div v-if="item.verified" class="verified-badge">
+            Verifisert
+          </div>
           <v-card-subtitle class="subtitle">
             <Preparation :item="item" />
           </v-card-subtitle>
@@ -46,15 +49,23 @@
         <MealType :item="item" />
 
         <v-card-actions class="card-actions">
-          <v-btn
-            color="var(--app-primary)"
-            variant="tonal"
-            rounded="pill"
-            text="Velg måltid"
-            @click="openPlanDialog(item)"
-            style="width: 100%;"
-          />
-          <v-spacer />
+          <div class="action-grid">
+            <v-btn
+              color="var(--app-primary)"
+              variant="tonal"
+              rounded="pill"
+              text="Velg måltid"
+              @click="openPlanDialog(item)"
+            />
+            <v-btn
+              color="var(--app-accent)"
+              variant="flat"
+              rounded="pill"
+              prepend-icon="mdi-pencil"
+              text="Rydd oppskrift"
+              @click="store.openMealEditor(item.id)"
+            />
+          </div>
         </v-card-actions>
       </v-card>
     </div>
@@ -150,34 +161,49 @@ function toggleFavorite(mealId) {
 <style scoped>
 .meal-view {
   display: grid;
-  gap: 16px;
+  gap: 20px;
 }
 
 .meal-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 18px;
+  gap: 22px;
 }
 
 .meal-card {
   display: flex;
   flex-direction: column;
-  border-radius: 20px;
+  position: relative;
+  border-radius: var(--app-radius-xl);
   border: 1px solid var(--app-border);
-  background: var(--app-card);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--app-card-strong) 95%, transparent), color-mix(in srgb, var(--app-card) 82%, transparent));
+  backdrop-filter: blur(14px);
   overflow: hidden;
-  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  box-shadow: var(--app-shadow);
+  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
   animation: fadeSlideIn 0.35s ease both;
 }
 
 .meal-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 18px 34px rgba(65, 47, 16, 0.12);
+  transform: translateY(-6px) rotate(-0.2deg);
+  box-shadow: var(--app-shadow-strong);
+  border-color: color-mix(in srgb, var(--app-accent) 30%, var(--app-border));
+}
+
+.meal-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at top right, rgba(212, 106, 60, 0.12) 0, transparent 20%),
+    linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.02) 100%);
 }
 
 .card-image {
   position: relative;
-  height: 230px;
+  height: 250px;
 }
 
 .card-image :deep(.v-responsive__content) {
@@ -192,51 +218,80 @@ function toggleFavorite(mealId) {
 
 .favorite-btn {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 14px;
+  right: 14px;
   z-index: 2;
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
 }
 
 .image-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(13, 22, 30, 0.38), rgba(13, 22, 30, 0.04));
+  background:
+    linear-gradient(to top, rgba(17, 22, 24, 0.72), rgba(17, 22, 24, 0.08)),
+    linear-gradient(130deg, rgba(212, 106, 60, 0.18), transparent 52%);
 }
 
 .title {
-  font-size: 1.1rem;
-  line-height: 1.3;
-  font-weight: 800;
+  font-family: var(--app-display);
+  font-size: 1.55rem;
+  line-height: 1.08;
+  font-weight: 400;
   color: var(--app-ink);
   white-space: normal;
 }
 
 .subtitle {
-  margin-top: 8px;
+  margin-top: 10px;
   color: var(--app-muted);
+}
+
+.verified-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--app-primary) 18%, white);
+  color: var(--app-primary-strong);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 8px;
 }
 
 .details {
   display: grid;
-  gap: 14px;
+  gap: 16px;
   flex: 1;
 }
 
 .card-actions {
   margin-top: auto;
-  padding: 12px 16px 16px;
+  padding: 14px 18px 18px;
+}
+
+.action-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
 }
 
 .plan-dialog {
   border: 1px solid var(--app-border);
-  border-radius: 14px;
+  border-radius: var(--app-radius-lg);
   background: var(--app-card);
   color: var(--app-ink);
+  box-shadow: var(--app-shadow-strong);
 }
 
 .plan-title {
-  font-weight: 700;
+  font-family: var(--app-display);
+  font-size: 1.8rem;
+  font-weight: 400;
   color: var(--app-ink);
 }
 
@@ -283,7 +338,7 @@ function toggleFavorite(mealId) {
 
 @media (max-width: 760px) {
   .card-image {
-    height: 140px;
+    height: 170px;
   }
 
   .compact-mobile .card-image {
@@ -297,6 +352,10 @@ function toggleFavorite(mealId) {
 
   .compact-mobile .details {
     gap: 6px;
+  }
+
+  .action-grid {
+    grid-template-columns: 1fr;
   }
 }
 

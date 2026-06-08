@@ -173,16 +173,21 @@ function formatDate(isoDate) {
 <style scoped>
 .planner-layout {
   display: grid;
-  gap: 14px;
+  gap: 20px;
 }
 
 .shopping-card {
   border: 1px solid var(--app-border);
-  border-radius: 16px;
-  background: var(--app-card);
+  border-radius: var(--app-radius-xl);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--app-card-strong) 94%, transparent), color-mix(in srgb, var(--app-card) 82%, transparent));
+  backdrop-filter: blur(14px);
+  box-shadow: var(--app-shadow);
 }
 
 .shopping-title {
+  font-family: var(--app-display);
+  font-size: 1.9rem;
   color: var(--app-ink);
 }
 
@@ -198,32 +203,33 @@ function formatDate(isoDate) {
 
 .shopping-list-wrap {
   display: grid;
-  gap: 14px;
+  gap: 18px;
 }
 
 .group-title {
   margin: 0 0 8px;
-  color: var(--app-muted);
+  color: var(--app-accent);
   font-size: 12px;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.14em;
 }
 
 .shopping-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 8px;
+  gap: 12px;
 }
 
 .shopping-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   border: 1px solid var(--app-border);
-  border-radius: 10px;
-  padding: 8px;
-  background: color-mix(in srgb, var(--app-bg-soft) 55%, transparent);
+  border-radius: 16px;
+  padding: 12px;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--app-bg-soft) 76%, transparent), transparent);
 }
 
 .shopping-enter-active,
@@ -257,41 +263,53 @@ function formatDate(isoDate) {
 
 .planner-header h3 {
   margin: 0;
-  font-size: 1rem;
+  font-family: var(--app-display);
+  font-size: 2rem;
+  font-weight: 400;
   color: var(--app-ink);
 }
 
 .plan-view {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 12px;
+  gap: 16px;
 }
 
 .day-card {
   border: 1px solid var(--app-border);
-  border-radius: 16px;
-  background: var(--app-card);
+  border-radius: var(--app-radius-lg);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--app-card-strong) 92%, transparent), color-mix(in srgb, var(--app-card) 82%, transparent));
+  box-shadow: var(--app-shadow);
+  transition: transform 0.24s ease, box-shadow 0.24s ease;
+}
+
+.day-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--app-shadow-strong);
 }
 
 .day-title {
-  font-size: 0.95rem;
+  font-size: 1.02rem;
+  letter-spacing: 0.01em;
   color: var(--app-ink);
 }
 
 .meal-list {
   display: grid;
-  gap: 6px;
+  gap: 10px;
 }
 
 .planned-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
+  gap: 10px;
   border: 1px solid var(--app-border);
-  border-radius: 10px;
-  background: color-mix(in srgb, var(--app-bg-soft) 60%, transparent);
-  padding: 6px 8px;
+  border-radius: 16px;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--app-bg-soft) 78%, transparent), transparent);
+  padding: 10px 12px;
   font-size: 13px;
 }
 
@@ -328,4 +346,3 @@ function formatDate(isoDate) {
   }
 }
 </style>
-
